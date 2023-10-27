@@ -1,0 +1,1795 @@
+\documentclass{article}
+\usepackage{mathtools}
+\usepackage{tocloft}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage[export]{adjustbox}
+\definecolor{mylinkcolor}{RGB}{124, 13, 208}
+\definecolor{mycolor}{RGB}{147,30,116}
+\definecolor{mynewcolor}{RGB}{124, 13, 208}
+
+\newcommand{\blank}{\underline{\hspace{0.35cm}}}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=mylinkcolor, 
+    urlcolor=mylinkcolor
+}
+
+\title{COMPONENTELE DE BAZĂ ALE SISTEMELOR DE CALCUL MODERNE}
+\author{Sîrbu Georgiana-Iuliana și Zincă Irina-Elena}
+\usepackage[romanian]{babel}
+
+\begin{document}
+\pagecolor[RGB]{230, 225, 228}
+\maketitle
+
+{\color[RGB]{147,30,116} \rule{\linewidth}{0.5mm}}
+\tableofcontents
+{\color[RGB]{147,30,116} \rule{\linewidth}{0.5mm}}
+\newpage
+
+\section{\fontsize{12}{16}\selectfont INTRODUCERE ÎN SISTEMELE DE CALCUL}
+{\color{black} \rule{\linewidth}{0.5mm}}
+%\section{Introducere în sistemele de calcul}
+
+
+%\large{\textbf {Cuprins}}
+\begin{tcolorbox}[colframe=black, colback=white]
+\begin{enumerate}
+\item Definiţii
+
+\item Structura ierarhică de organizare a SC
+
+\item Structura funcţională a SC
+
+\item Principiile von Neumann
+
+\item Surse de informare suplimentare
+
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Definiții}
+\subsubsection{Definirea unui sistem de calcul}
+\textcolor[RGB]{124, 13, 208}{Sistemul de calcul este un ansamblu de componente interconectate destinat prelucrării datelor, unde componentele sunt resurse ce contribuie la funcționarea sistemului.}
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Resurse}}
+
+\begin{enumerate}
+    \item \textcolor[RGB]{147,30,116}{fizice} (componenta hardware)
+    \begin{itemize}
+    \item structura unui sistem de calcul minimal
+    \item structura unui sistem de calcul elementar  (uzual)
+    \item structura unui sistem de calcul specializat
+    \end{itemize}
+\item \textcolor[RGB]{147,30,116}{logice} (subsistemul software)
+\begin{itemize}
+    \item aplicații de sistem
+    \item aplicații utilizator
+\end{itemize}
+\item \textcolor[RGB]{147,30,116}{informaționale}\textcolor[RGB]{124, 13, 208} {
+-datele, fișierele de date ale utilizatorilor.}
+
+
+\textcolor[RGB]{124, 13, 208} {Această clasificare suprapune termenii de informație și date.}
+
+\textcolor[RGB]{124, 13, 208} {Informația este dată prelucrată.}
+
+\end{enumerate}
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Abordarea SC la nivel hardware}}
+\hspace{2cm}
+
+
+\begin{itemize}
+\item \textcolor[RGB]{147,30,116}{organizarea componentelor} – pt. PERFORMANŢĂ  
+\begin{enumerate}
+\item cum operează fiecare componentă hard
+\item posibilităţi de interconectare 
+\end{enumerate}
+\item \textcolor[RGB]{147,30,116}{proiectare (design)} - pt. UTILIZATOR \textcolor[RGB]{124, 13, 208}{(componentele sunt văzute în ansamblul lor. La acest nivel se aleg acele componente care răspund optim cerințelor utilizatorului)}
+\begin{enumerate}
+\item se aleg componentele hard
+\item se aleg soluţiile de interconectare
+\end{enumerate}
+\item \textcolor[RGB]{147,30,116}{arhitectura sistemului de calcul}
+\end{itemize}
+
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Definirea arhitecturii calculatorului}}
+\hspace{2cm}
+
+\textcolor[RGB]{147,30,116}{Arhitectura sistemului de calcul se referă la structura şi comportamentul SC văzut de utilizator.}
+
+Când ne referim la arhitectura unui SC trebuie să dăm
+specificaţiile diferitelor unităţi funcţionale şi conectările fizice şi logice dintre ele.
+
+Arhitectura calculatoarelor se referă la asamblarea subsistemelor
+funcţionale într-un calculator numeric, pentru a obţine
+performanţele impuse în condiţii de cost avantajoase. [DEX]
+
+[Tanenbaum]
+Sintagma arhitectura calculatoarelor este adesea utilizată cu
+semnificaţia simplă de organizarea şi proiectarea calculatoarelor.
+\textcolor[RGB]{147,30,116}{Arhitectura calculatoarelor se referă la studiul proiectării acelor părţi ale unui sistem de calcul care sunt vizibile programatorului.}
+\begin{table}[h]
+ \centering
+ \begin{tabular}{| c | c | c | c | c | c |}
+\hline
+\multicolumn{6}{|c|}{Lumea exterioară}\\
+\hline
+\multicolumn{6}{|c|}{Program de aplicație}\\
+\hline
+\multicolumn{6}{|c|}{  Limbaje de nivel înalt  }\\
+\hline
+\multicolumn{3}{|c|}{  Control execuție  } & \multicolumn{3}{|c|} {  Control I/O  }\\
+\hline
+\multicolumn{6}{|c|}{  Setul de instrucțiuni de bază (interpretare)  }\\
+\hline
+\multicolumn{3}{|c|}{Microcod} & \multicolumn{3}{|c|}{Procesor I/O}\\
+\hline
+\multicolumn{2}{|c|}{Registre UAL} & \multicolumn{2}{|c|}{Memorie} & \multicolumn{2}{|c|}{Controllere}\\
+\hline
+
+\end{tabular}
+\begin{picture}(60,60)
+\put(30,-29){\vector(-1,0){30}}
+\put(30,-17){\vector(-1,0){30}}
+\put(30,-4){\vector(-1,0){30}}
+\put(30,8){\vector(-1,0){30}}
+\put(30,20){\vector(-1,0){30}}
+\put(30,32){\vector(-1,0){30}}
+\put(35,-31){Arhitectură de nivel poartă}
+\put(35,-19){Arhitectură de microcod}
+\put(35,-6){Arhitectură de set de instrucțiuni}
+\put(35,6){Arhitectură de sistem de operare}
+\put(35,18){Arhitectură de limbaj de programare}
+\put(35,30){Arhitectură de sistem}
+\end {picture}
+    \caption{\label{tab:my_label}Arhitectura calculatorului}
+\end {table}
+
+
+\textcolor[RGB]{147,30,116}{Nivelul de arhitectură} este legătura dintre subsistemele sitemului gazdă.
+
+
+\textcolor[RGB]{147,30,116}{Arhitectura de nivel} este interfaţa dintre modulele funcţionale pe care le uneşte.
+
+\begin{itemize}
+\item \textcolor[RGB]{124, 13, 208}{AC = organizarea și proiectarea calculatoarelor, studiul proiectării acelor părți ale unui sistem de calcul
+\item Controller = microprocesor care se ocupă cu prelucrarea informației}
+
+\item \textcolor[RGB]{124, 13, 208}{UAL = unitate aritmeticologică}
+
+\begin{itemize}
+\item \textcolor[RGB]{124, 13, 208}{Limbaje funcționale: pascal,ocamel,sharp}
+\item \textcolor[RGB]{124, 13, 208}{Limbaje logice: prolog}
+\item \textcolor[RGB]{124, 13, 208}{Limbaje orientate pe aplicații web: html}
+\end{itemize}
+\item \textcolor[RGB]{124, 13, 208}{UAL e singura componentă a calculatorului care execută.}
+
+\item \textcolor[RGB]{124, 13, 208}{ISA = industrial standard architecture = instruction set architecture}
+
+\item \textcolor[RGB]{124, 13, 208}{PnP = plug and play (nu e necesar să instalăm noi o componentă, ea e “instalată” automat in momentul in care se conectează - sistemul de operare o detectează pe port, caută printe propriile programe un driver, dacă nu găsește și are conexiune caută online) $\leftarrow$ în cazul compilatoarelor nu atât de performante}
+
+\item \textcolor[RGB]{124, 13, 208}{Manual de asamblare = specificațiile fiecărei componente pentru ca ea să fie folosită și asamblată în calculator}
+
+\end{itemize}
+
+\subsection{Structura ierarhică a unui sistem de calcul}
+
+
+\textbf{Nivele conceptuale}
+\begin{itemize}
+\item \textcolor[RGB]{147,30,116}{N. logic-digital}
+
+Porţi logice (tranzistoare → poartă logică → bistabil → registru)
+\item \textcolor[RGB]{147,30,116}{N. microarhitecturii}
+
+SC = regiştri + datapath + UAL
+\item \textcolor[RGB]{147,30,116}{N. arhitecturii setului de instrucţiuni} (ISA)
+
+Componentă → manual de utilizare → limbaj maşină
+\item \textcolor[RGB]{147,30,116}{N. maşină al sistemului de operare}
+\item \textcolor[RGB]{147,30,116}{N. limbajului de asamblare}
+\item \textcolor[RGB]{147,30,116}{N. limbajului orientat pe problemă}
+\end{itemize}
+
+\subsection{Structura funcțională a SC}
+
+\textbf{Structura fizică}
+
+\textcolor[RGB]{124, 13, 208}{Structura fizică include enumerarea unităților funcționale}
+\begin{itemize}
+\item \textcolor[RGB]{147,30,116}{unităţi de schimb} – UCC \textcolor[RGB]{124, 13, 208}{- este formată din unități de schimb (este unitatea de comandă și control și cuprinde acele date care sunt implicate în transferul informației)}
+\item \textcolor[RGB]{147,30,116}{componente} - UAL \textcolor[RGB]{124, 13, 208}{- unitatea aritmetologică și este formată din componente implicate direct în execuția operațiilor}
+\item \textcolor[RGB]{147,30,116}{memorii interne} - regiştri + memorii;
+\textcolor[RGB]{124, 13, 208}{Memoria (componente poziționate în interiorul box-ului calculatorului -
+memorii interne, memorie implicată direct in execuția programului);}
+\textcolor[RGB]{124, 13, 208}{
+Regiștrii - registre, memorie realizată pe tehnologie RAM}
+\item \textcolor[RGB]{147,30,116}{procesoare} - UCP
+\textcolor[RGB]{124, 13, 208}{(unitatea centrală de procesare) este totalitatea procesoarelor
+(unitățile de executare ale programelor)
+}
+\item \textcolor[RGB]{147,30,116}{dispozitive periferice} - IOS; \textcolor[RGB]{124, 13, 208}{Sistemul de intrare/ieșire este unitatea funcțională care grupează dispozitivele periferice (IOS = input/output sistem) }\textcolor[RGB]{124, 13, 208}{ - precizarea relațiilor dintre unitățile funcționale}
+\end{itemize}
+
+\textbf{Structura logică}
+
+UCC+UAL=UCtrlP
+      
+UCtrlP+Registrii=UCP
+       
+UCP+Memorii=UC
+            
+UC+IOS=SC
+
+\textcolor[RGB]{124, 13, 208}{UCtrlP= unitatea de control și prelucrare}
+
+
+\textcolor[RGB]{124, 13, 208}{UC = unitatea centrală (box-ul calculatorului)}
+
+\textcolor[RGB]{124, 13, 208}{SC = sistem de calcul}
+
+
+\textcolor[RGB]{124, 13, 208}{UCP = unitatea centrală de procesare}
+
+
+\subsection{Principiile von Neumann}
+
+\begin{itemize}
+\item Deoarece maşina este destinată calculelor, ea execută cele patru operaţii aritmetice. Se impune deci, existenţa unei componente specializate pentru calcule. (Astăzi, aceasta este numită \textcolor[RGB]{147,30,116}{unitatea aritmetico-logică }\textcolor[RGB]{124, 13, 208}{(UAL)}. )
+
+\item Operaţiile se vor executa secvenţial. Pentru a asigura elasticitatea şi o relativă universalitate, se impune o distincţie între instrucţiunile necesare rezolvării unei probleme particulare şi controlul general asupra unor instrucţiuni executate la un 
+moment dat. (Apare, astfel, ceea ce astăzi numim \textcolor[RGB]{147,30,116}{componentă de control }\textcolor[RGB]{124, 13, 208}{(UCC)}. ) 
+
+\item Este necesară o componentă numită \textcolor[RGB]{147,30,116}{memorie internă }\textcolor[RGB]{124, 13, 208}{(MC)} în care „se ţin minte” pentru un timp limitat atât instrucţiunile, cât şi datele necesare rezolvării problemei. 
+
+\item Cele trei componente, luate împreună, sunt analoage neuronilor din sistemul nervos central.
+
+\item Se impune, continuând analogia, să existe un senzor care să recepţioneze semnalele de orice fel provenite din exterior. Este necesar, de asemenea, un motor care să acţioneze asupra mediului exterior. (Astăzi, acestea se numesc \textcolor[RGB]{147,30,116}{dispozitive de intrare/ieşire }\textcolor[RGB]{124, 13, 208}{(I/O)}. )
+
+\item Este necesară o componentă care să „ţină minte permanent”, să înregistreze aşa cum omul îşi notează ceea ce nu doreşte să uite. Această componentă o vom numi \textcolor[RGB]{147,30,116}{memorie permanentă}. (Astăzi, ne referim la această componentă prin \textcolor[RGB]{147,30,116}{memorie externă}.) 
+
+\item Este necesară crearea posibilităţii de trecere de la memoria internă la cea permanentă şi reciproc.
+\end{itemize}
+
+\begin{tikzpicture}
+    \draw (0,0) rectangle (5.5,2);
+    \node at (2.75,1.65) {\textcolor[RGB]{124, 13, 208}{Unitatea Centrală de Procesare}};
+    \draw (0.25,0.25) rectangle (2.6,1.25);
+    \draw (2.9,0.25) rectangle (5.25,1.25);
+    \node at (1.425,0.75) {\textcolor[RGB]{124, 13, 208}{UAL}};
+    \node at (4.075,0.75) {\textcolor[RGB]{124, 13, 208}{UCC}};
+    \draw (6,0) rectangle (8.5,2);
+    \node [align=center] at (7.25,1) {\textcolor[RGB]{124, 13, 208}{Memoria}\\\textcolor[RGB]{124, 13, 208}{ Calculatorului}};
+    \draw (9,0) rectangle (11.5,2);
+     \node at (10.25,1) {\textcolor[RGB]{124, 13, 208}{I/O}};
+     \draw (0,-1) rectangle (11.5,-2);
+     \node at (5.75,-1.5) {\textcolor[RGB]{124, 13, 208}{Magistrala}};
+     \draw[<->] (2.75,-0.1) -- (2.75,-0.9);
+     \draw[<->] (7.25,-0.1) -- (7.25,-0.9);
+     \draw[<->] (10.25,-0.1) -- (10.25,-0.9);
+\end{tikzpicture}
+
+\subsection{Surse de informare suplimentare}
+\hspace{0,4cm}
+
+\href{https://www.youtube.com/watch?v=mCq8-xTH7jA&list=PLzdnOPI1iJNcsRwJhvksEo1tJqjIqWbN-}{Introducere în modul de funcționare al calculatoarelor}
+
+\href{https://www.youtube.com/watch?v=-SADbPS8UgA}{Arhitectura von Neumann}
+
+%\href{https://www.youtube.com/watch?v=Sds8XtmglNc&t=2m25s}{Arhitectura von Neumann și structura funcţională a SC}
+
+\href{https://www.youtube.com/watch?v=bXpBRobPheA&t=1m43s}{Structura funcţională a SC pe scurt}
+
+\href{https://www.youtube.com/watch?v=jSU0yqXv2Ns}{Ierarhia sistemelor de calcul}
+\\
+\\
+\section{\fontsize{12}{16}\selectfont SISTEMUL DE INTRARE/IEȘIRE}
+
+%\large{\textbf {Cuprins}}
+\begin{tcolorbox}[colframe=black, colback=white]
+\begin{enumerate}
+\item Definire
+
+\item Clasificări 
+
+\item Procesor / canal de intrare/ieșire
+
+\item Legarea perifericelor la SC. Unități de interfață I/O
+
+\item Transferul eficient de date
+
+\item Placa de bază
+
+\item Magistrale. Standarde de magistrală
+
+\item Conectori pentru componentele SC
+
+\item Surse de informare suplimentare 
+
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Definire}
+
+\textcolor[RGB]{124, 13, 208} {Sistemul de intrare/ieșire reprezintă unitatea funcțională formată din dispozitivele periferice, adică acele componente care trebuie să asigure pe de-o parte schimbul de informații și pe de altă parte organizarea memoriei pentru informațiile externe.}
+\\
+\\
+\textcolor[RGB]{124, 13, 208}{
+ Acestea pot să faciliteze un schimb de informații între memoria internă și mediul extern sau organizeze și să memoreze informații externe}
+\textcolor[RGB]{124, 13, 208}{Cele ce facilitează un schimb de informații pot fi:}
+\begin{itemize}
+\item \textcolor[RGB]{124, 13, 208}{Periferice de sine stătătoare: tastatura, mouse, monitor}
+\item \textcolor[RGB]{124, 13, 208}{Plăci de conexiune: ceea ce gândim ca structură la o placă de sunet, o placă de rețea, (și placa de bază intră în această categorie, dar trebuie totuși separată)}
+\end{itemize}
+
+\textcolor[RGB]{124, 13, 208}{Legat de organizarea și memorarea informațiilor externe:}
+
+\begin{itemize}
+\item \textcolor[RGB]{124, 13, 208}{Placa grafică = infrastructura suport pentru grafica de care dispune SO}
+\item \textcolor[RGB]{124, 13, 208}{Procesor grafic = partea de prelucrare a parților grafice/video}
+\end{itemize}
+
+
+\textcolor[RGB]{124, 13, 208}{Numim periferic orice componentă care se conectează din exterior, pentru a crește funcționalitatea calculatorului.}
+
+\subsection{Clasificări}
+\begin{enumerate}
+    \item \textcolor[RGB]{147,30,116}{din punct de vedere funcțional}
+    \begin{itemize}
+        \item periferice de schimb
+        \item periferice purtătoare de informații\textcolor[RGB]{124, 13, 208}{(face diferența dintre o memorie externă - HDD, sau o memorie internă - RAM, care nu are proprietatea de a păstra informațiile permanent)}
+    \end{itemize}
+    \item \textcolor[RGB]{147,30,116}{după direcția de transfer a datelor \textcolor[RGB]{124, 13, 208}(în raport cu calculatorul)}
+    \begin{itemize}
+    \item periferice de intrare
+    \item periferice de ieșire
+    \item periferice de intrare/ieșire
+    \end{itemize}
+    \item \textcolor[RGB]{147,30,116}{după tipul de transfer al informației}
+    
+\begin{itemize}
+\item periferice bloc (bloc adresabil = informații + control)
+ \begin{itemize}
+\item \textcolor[RGB]{124, 13, 208}{Transferă datele în "blocuri" de octeți, adică mai mulți octeți simultan (în același bloc). Avantajul transferului bloc este că fiecare astfel de unitate de transfer este adresabilă.(Spunem despre o entitate că are o adresă când putem să o identificăm in mod unic;
+adresa = identificator unic).
+}
+\item \textcolor[RGB]{124, 13, 208}{Conținutul unui astfel de bloc e format din 2 tipuri de informații:}
+\begin{itemize}
+\item \textcolor[RGB]{124, 13, 208}{Informații propriu-zise (ex. Informațiile propriu-zise ale unui CNP sunt sexul, data nașterii și codul de oraș natal).}
+\item \textcolor[RGB]{124, 13, 208}{Informații de control( ex. Informația de control a unui CNP este ultima cifră). Pe un HDD pista 0 are informații de control pentru toată disk-eta.}
+\end{itemize}
+\end{itemize}
+        
+\item periferice caracter (flux de octeți, neadresabil)
+
+
+\textcolor[RGB]{124, 13, 208}{Este sub formă de transfer octet după octet (flux de octeți), într-o structură neadresabilă}
+
+\textcolor[RGB]{124, 13, 208}{Email-ul are o trimitere pe bază de flux de octeți}
+
+        
+\end{itemize}
+ \item \textcolor[RGB]{147,30,116}{după partenerul implicat în utilizare}
+    \begin{itemize}
+        \item periferice care interacționează cu omul
+        \item periferice care interacționează cu mașina
+
+\textcolor[RGB]{124, 13, 208}{Periferice care interacționează cu mașina (legătura între 2 componente fizice): modem (modulator de semnal), plăcile de conexiune, placa de bază, CDRom (unitatea de CD/DVD), rack-ul ca suport pt harddisk-uri fizice.}
+
+   
+\textcolor[RGB]{124, 13, 208}{În toate ierarhiile funcționează acest principiu.}
+
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Canal de intrare/ieșire}
+
+\begin{itemize}
+\item \textcolor[RGB]{147,30,116}{I/O processor} = unitate de prelucrare specializată 
+pe operaţii I/O
+
+\textcolor[RGB]{124, 13, 208}{Pot să văd un procesor ca o componentă intermediară între procesorul central și toate perifericele,
+în așa fel încât această componentă să preia semnalele, să le prelucreze într-o măsura proprie și să transmită procesorului central doar ce are nevoie.}
+
+
+\item realizează schimbul de date între memorie şi 
+periferice
+\item poate funcţiona în paralel cu procesorul central după numărul de periferice conectate.
+
+\item Clasificare după numărul de periferice conectate:
+\begin{itemize}
+\item \textcolor[RGB]{147,30,116}{canal selector} – lucrează cu un singur periferic la un moment dat
+\item \textcolor[RGB]{147,30,116}{canal multiplexor} – lucrează simultan cu mai 
+multe periferice; pentru fiecare octet schimbat, trebuie să decidă care este destinaţia acestuia
+\end{itemize}
+\end{itemize}
+
+\subsection{Legarea perifericelor la SC. Unităţile de interfaţă de I/O}
+\subsubsection  {\textcolor[RGB]{147,30,116}{Interfaţă I/O}}
+
+\begin{itemize}
+    \item componentă hardware de legătură
+    \item constă în linii speciale de comunicare care leagă perifericele la UCP
+    \item  \textcolor[RGB]{124, 13, 208} {ea trebuie să asigure compatibilitatea componentelor}
+\end{itemize}
+\subsubsection{\textcolor[RGB]{147,30,116}{Funcțiile interfețelor I/O}}
+\begin{itemize}
+    \item supervizarea şi sincronizarea tuturor transferurilor I/O
+    \item conversia semnalelor specifice modului de operare pe suporturi externe în semnale de lucru pe UCP
+    \item sincronizarea ratelor de transfer de date de la viteza de lucru pe periferic la viteza de lucru în UCP
+    \item decodificarea/codificarea datelor de pe periferic în format specific în UCP
+    \item delimitarea semnalelor unui periferic de ale altora dintre cele conectate la acelaşi SC
+\end{itemize}
+
+\textcolor[RGB]{147,30,116}{\scalebox{1.5}{$\star$}}
+\textcolor[RGB]{147,30,116}{Aceste funcţii trebuie integrate în contextul conexiunilor de tip: periferic – interfaţă – magistrală! }\textcolor[RGB]{147,30,116}{\scalebox{1.5}{$\star$}}
+
+\subsubsection {\textcolor[RGB]{147,30,116} {Clasificarea interfețelor I/O}}
+\begin{enumerate}
+    \item \textcolor[RGB]{147,30,116} {după numărul semnalelor şi sensul de transmitere simultană}
+    
+    \begin{itemize}
+        \item interfeţe seriale – transferă informaţia bi-direcţional
+        \item interfeţe paralele – transferă informaţia numai într-un sens
+    \end{itemize}
+     \item \textcolor[RGB]{147,30,116}
+     {după tipul de transmitere a datelor}
+     \begin{itemize}
+         \item interfeţe cu transmitere sincronă de date - viteza de transmitere a datelor depinde de frecvenţa de tact
+         \item interfeţe cu transmitere asincronă de date - comunicarea se bazează pe structura datelor transmise (mesaj, pachet)
+     \end{itemize}
+\end{enumerate}
+
+\textcolor[RGB]{147,30,116}{Legarea perifericelor la SC}
+\\
+
+\begin{tikzpicture}
+\draw (0,0) rectangle node {SC} (2,1);
+\draw[<->] (2,0.5) -- (3,0.5);
+\draw (3,0) rectangle node {Interfață I/O} (6,1);
+\draw[<->] (6,0.5) -- (7,0.5);
+\draw (7,0) rectangle node {Controller} (10,1);
+\draw (10,0) rectangle node {Periferic} (13,1);
+\draw[->] (3,-0.5) -- (1,0);
+\draw (3,-1) ellipse (1cm and 0.5cm) node {Port};
+\end{tikzpicture}
+
+\textcolor[RGB]{147,30,116}{Controller} = unitate de control proprie perifericului;
+
+\textcolor[RGB]{147,30,116}{Port} = punctul în care se conectează fizic interfaţa la SC
+ =\textcolor[RGB]{147,30,116}{ registru de date} prin care se realizează schimbul de informaţii între sistem şi exterior
+ = este identificat de UCP printr-o adresă, astfel, \textcolor[RGB]{147,30,116}{fiecare resursă hardware din sistem trebuie să aibă o altă adresă de port I/O} \textcolor[RGB]{124, 13, 208} {și se află în spatele UCP-ului}
+;
+
+ \textcolor[RGB]{147,30,116}{I/O Bus} = magistrala de conectare a perifericelor în SC;
+\\
+\\
+ Comunicarea între procesorul central şi periferice este permanentă:
+ \begin{itemize}
+     \item prin polling
+     \item prin întreruperi (mai ales în configuraţiile time-critical)
+ \end{itemize}
+
+\subsection{Transferul eficient de date}
+
+După gradul de implicare a procesorului în controlul
+transferului de date, avem:
+\begin{itemize}
+
+ \item \textcolor[RGB]{147,30,116}{transfer prin program} – UCP se implică total în efectuarea transferului;
+ 
+\item \textcolor[RGB]{147,30,116}{transfer prin întreruperi} – în care UCP poate să folosească timpul liber dintre două transferuri consecutive pentru executarea altor secvenţe de program (execuţie concurentă);
+
+\item \textcolor[RGB]{147,30,116}{transfer prin acces direct la memorie} (DMA, engl. Direct Memory Access), fără intervenţia efectivă a procesorului; această metodă de transfer necesită un circuit specializat (numit controller DMA) care are posibilitatea de a prelua controlul magistralei sistem în vederea efectuării transferului propriu-zis de date;
+
+\item \textcolor[RGB]{147,30,116}{transfer prin procesor de intrare/ieşire} – care conferă procesorului cel mai mare grad de libertate: sarcinile legate de transfer sunt preluate de către o altă unitate de tip procesor, numită procesor de intrare / ieşire.
+
+\end{itemize}
+$\star$
+IOP (procesor sau canal I/O) apare ca un processor cu suport DMA pentru comunicarea cu perifericele; ÎN TIMPUL ÎN CARE procesorul central rezolvă task-urile de DMA, IOP poate încărca și executa propriile task-uri legate de operațiile de I/O.$\star$
+
+\subsection {Placa de bază}
+
+
+\begin{itemize}[label={\textcolor[RGB]{147,30,116}{$\bullet$}}]
+    \item este principala placă de interconectare (circuite integrate) a calculatorului.
+    \item din punct de vedere fizic, direct sau indirect, \textcolor[RGB]{147,30,116}{prin chipset} conectează procesorul cu toate componentele fizice din sistem.
+\end{itemize}
+
+
+ Diferențele semnificative de performanță între mai multe SC sunt generate de procesorele sistemelor respective, \textcolor[RGB]{147,30,116}{\textbf{dar}, fără un chipset și o placă de bază alese \textbf{potrivit}}, procesorul poate intra într-o stare de interblocare la nivelul datelor (data starvation, deadlock) față de celelalte componente.
+
+
+ \textcolor[RGB]{147,30,116}{Chipset-ul și placa de bază} sunt \textbf{esențiale} pentru performanța SC și sunt  \textcolor[RGB]{147,30,116}{\textbf{singurele} componente} proiectate specific / orientat pe o arhitectura de procesor / familie de procesoare.
+
+
+ Toate celelalte componente sunt proiectate independent de procesor, atât timp cât ele comunică \textcolor[RGB]{147,30,116}{prin magistrale \textbf{standard} recunoscute de chipset și de placa de bază}.
+
+
+ Pentru a asigura compatibilitatea cu standardele mai vechi (legacy standards), cum sunt cele pe porturile seriale și paralele pentru tastatură, de exemplu, s-a adăugat un modul chip separat, numit \textcolor[RGB]{147,30,116}{super I/O chip}.
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Din punct de vedere funcțional}}
+\begin{itemize}
+ \item existența pe placa de bază a mai multor \textcolor[RGB]{147,30,116}{module chip} ( Northbridge, Southbridge și \textcolor[RGB]{147,30,116}{super I/O chips}) asigură un nivel
+important de \textbf{flexibilitate} pentru arhitectura SC.
+
+
+\item diferite Northbridge-uri cu designuri diferite, pot asigura \textcolor[RGB]{147,30,116}{compatibilitatea} procesorului cu diferite tipuri de
+adaptoare grafice sau sloturi de memorie.
+
+
+\item fiecare Northbridge poate fi
+\textcolor[RGB]{147,30,116}{compatibil} cu mai multe chipuri de tip Southbridge, asigurând și mai multe \textcolor[RGB]{147,30,116}{combinații}.
+
+
+\item toate aceste combinații pot folosi același
+design de \textcolor[RGB]{147,30,116}{super I/O} pentru legarea
+componentelor tradiționale.
+
+\end{itemize}
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=10cm, height=8cm]
+    \centering
+    \color{white} % Set the font color to white
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{northbridge.png} % Replace with your image file name and extension
+\end{tcolorbox}
+\end{center}
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Din punct de vedere fizic}}
+
+\hspace{0.45 cm}
+Placa de bază implementează \textcolor[RGB]{147,30,116}{magistralele} care „țin” componentele conectate (procesor, chipset, etc) și asigură \textcolor[RGB]{147,30,116}{toți conectorii fizici} cu/pentru lumea exterioară.
+
+\textcolor[RGB]{147,30,116}{Chipset-ul} constă dintr-o pereche de module chip responsabile de \textcolor[RGB]{147,30,116}{comunicarea} între procesor și celelalte componente pe placa de bază. 
+
+Concret, unul dintre chip-uri, NorthBridge, răspunde de comunicarea cu componentele rapide și celălalt, SouthBridge, de comunicarea cu componentele lente. 
+
+\textcolor[RGB]{147,30,116}{Arhitectura chipset-ului} este cea mai importantă alegere în proiectarea unei plăci de bază. Aceasta determină \textcolor[RGB]{147,30,116}{interfețele de magistrală} disponibile și, \textbf{mai departe}, tipurile de procesor, memorie principală, carduri / adaptoare grafice, alte memorii, plăci de extensie sau alte periferice pe care să le susțină (suporte) placa de bază.
+
+Pentru fiecare modul și/sau chip de pe placa de bază, se ia o decizie specifică legată de amplasarea lui \textcolor[RGB]{147,30,116}{direct pe placă} \textbf{sau} prin intermediul unui \textcolor[RGB]{147,30,116}{soclu (socket)} în care să se conecteze (to be plugged into). Soclurile sunt mai scumpe, dar lasă deschisă posibilitatea de a schimba \textbf{sau} de a extinde (upgrade) ulterior chip-ul.
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Componentele plăcii de bază}}
+
+
+
+\begin{itemize}
+\item \textcolor[RGB]{147,30,116}{Conector de alimentare} (ATX 20+4pini),Power connector - alimentează placa de bază DIRECT de la sursă (PSU) și convertește tensiunea de intrare AC (Alternating Current) în curent standard DC (Direct Current).
+\item \textcolor[RGB]{147,30,116}{Conector de alimentare 12V} (8pini), 12-V Power connector – alimentează SUPLIMENTAR procesorul central (CPU), DIRECT de la sursă 
+\item \textcolor[RGB]{147,30,116}{Procesor VR}, Voltage Regulator - convertește tensiunea din standardul DC (3.3V, 5V, și 12V) în tensiune specifică pe procesor (1.2V)
+\item \textcolor[RGB]{147,30,116}{Procesoarele moderne folosesc VID} (Voltage IDentification) în loc de comutatoare (switches) pentru a controla tensiunea furnizată de VR.
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=10cm, height=8cm]
+    \centering
+    \color{white} % Set the font color to white
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{placa_de_baza1.png} % Replace with your image file name and extension
+\end{tcolorbox}
+\end{center}
+
+\item PCI = Peripheral Component Interconnect
+\item AGP = Accelerated Graphics Port
+\item USB = Universal Serial Bus
+\item IDE = Integrated Drive Electronics
+\item \textcolor[RGB]{147,30,116}{Chipset} - asigură comunicarea între procesor și toate celelalte componente pe placa de bază 
+\item \textcolor[RGB]{147,30,116}{Super I/O Chip} - procesor I/O
+\end{itemize}
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=10cm, height=8cm]
+    \centering
+    \color{white} % Set the font color to white
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{placa_de_baza2.png} % Replace with your image file name and extension
+\end{tcolorbox}
+\end{center}
+
+$\star$Pentru a avea o interfață standard pentru aplicații, fiecare placă de bază are funcții de bază specifice accesibile prin propriul \textbf{\textcolor[RGB]{147,30,116}{BIOS}}.$\star$
+
+\subsection{Magistrale. Standarede de magistrală}
+
+Un \textcolor[RGB]{147,30,116}{ chipset} se referă la un grup de circuite integrate, sau cipuri, fabricate pentru a lucra împreună. În cele mai multe cazuri, acestea sunt fabricate într-un singur produs.
+În industria calculatoarelor, termenul de chipset este comun pentru a referi un set specializat de cipuri pe microprocesorul unui calculator și o pereche specifică de cipuri pe placa de bază.
+
+Există două categorii de chipset-uri:
+\begin{itemize}
+    \item \textcolor[RGB]{147,30,116}{Chipset grafic}. Este componenta principală a plăcii video, coordonând activitatea plăcii. Un chipset grafic este caracterizat de frecvența de funcționare, lățimea bus-ului de transfer către memoria grafică și abilitatea acestuia de a executa instrucțiuni specifice. Principalii producători de chipset-uri grafice pentru PC-uri includ NVIDIA, AMD(prin achiziționarea firmei ATi), Intel etc.
+    \item \textcolor[RGB]{147,30,116}{Chipset-ul plăcii de bază}. Pentru placa de bază, chipset-ul reprezintă componenta principală, influențând foarte mult performanța plăcii de bază. Este coordonatorul componentelor esențiale din sistem, prin urmare, performanțele chipset-ului plăcii de bază determină performanța configurației. Are două componente principale, northbridge și respectiv southbridge, ambele îndeplinind funcții distincte.
+\end{itemize}
+
+In alegerea unui chipset, în afară de indicii de performanţă evidenţi cu care se prezintă fiecare, mai trebuie ţinut cont şi de facilităţile suplimentare oferite, de exemplu video sau sunet integrat, caz în care nu mai aveţi nevoie de componente separate pentru subsistemul video sau audio. Totuși, de reținut că soluțiile "integrate" în chipset, nu vor egala ca performanță componentele separate, "dedicate".
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=10cm, height=8cm]
+    \centering
+    \color{white} % Set the font color to white
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{computer buses.png} % Replace with your image file name and extension
+\end{tcolorbox}
+\end{center}
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Definiții}}
+\hspace{0.4cm}
+= (logic) mediu de comunicare între componente
+
+= (fizic) set de linii de semnal astfel încât facilitează transferul de date și sincronizează componentele conectate
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Proprietăți}}
+\begin{itemize}
+    \item inter-conectează perifericele, procesorul şi memoriile
+    \item foloseşte pentru conexiune seturi de conductori electrici
+    \item reprezintă o cale de comunicare partajată
+    \item defineşte protocolul de comunicare între subsisteme la nivelul cel mai de jos (lowest level)
+\end{itemize}
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Performanțele unei magistrale se apreciază după:}}
+\begin{itemize}
+    \item lungime
+    \item viteză / rata de transfer a datelor / lărgime de bandă
+    \item numărul maxim de periferice inter-conectabile /
+extensibilitate / flexibilitate
+    \item share-ability = facilitarea interfațării
+\end{itemize}
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Model uzual de conectare a perifericelor la procesor}}
+
+\begin{tikzpicture}
+\draw (0,0) rectangle node {PROCESOR} (3,1);
+\node[above] at (4, 0.5) {Întreruperi};
+\draw[<-] (3,0.5) -- (11,0.5);
+\draw (5, 0.5) -- (5, -0);
+\draw (8, 0.5) -- (8, -0);
+\draw (11, 0.5) -- (11, -0);
+\end{tikzpicture}
+\\
+\begin{tikzpicture}
+\draw (0,0) rectangle node {CACHE} (3,1);
+\draw (5,2) -- (5,0);
+\draw (8,2) -- (8,0);
+\draw (11,2) -- (11,0);
+\end{tikzpicture}
+\\
+\begin{tikzpicture}
+\draw (0,0) rectangle node {MAGISTRALĂ SISTEM (date, adrese, control)} (12,1);
+\draw (5,2) -- (5,1);
+\draw (8,2) -- (8,1);
+\draw (11,2) -- (11,1);
+\draw (5,0) -- (5,-0.5);
+\draw (8,0) -- (8,-0.5);
+\draw (11,0) -- (11,-0.5);
+\end{tikzpicture}
+\\
+\begin{tikzpicture}
+\draw (0,0) rectangle (3,2);
+\node [align=center] at (1.5, 1) {MEMORIE \\ PRINCIPALĂ};
+\draw (3.5,1) rectangle (6.45,3);
+\node [align=center] at (5, 2) {INTERFAȚĂ I/O \\ controller};
+\draw (6.55,1) rectangle (9.45,3);
+\node [align=center] at (8, 2) {INTERFAȚĂ I/O \\ controller};
+\draw (9.55,1) rectangle (12.45,3);
+\node [align=center] at (11, 2) {INTERFAȚĂ I/O \\ controller};
+\draw (5,3) -- (5,4);
+\draw (8,3) -- (8,4);
+\draw (11,3) -- (11,4);
+\draw (4,1) -- (4,0);
+\draw (6,1) -- (6,0);
+\draw (8,1) -- (8,0);
+\draw (11,1) -- (11,0);
+\end{tikzpicture}
+\\
+\begin{tikzpicture}
+\draw(0,0);
+\draw (3.3,0) rectangle node {DISK} (4.7,1);
+\draw (5.3,0) rectangle node {DISK} (6.7,1);
+\draw (6.9,0) rectangle node {Stație grafică} (9.1,1);
+\draw (10,0) rectangle node {Network} (12,1);
+    
+\end{tikzpicture}
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Clasificarea după tipul componentelor interconectate}}
+\begin{enumerate}
+    \item \textcolor[RGB]{147,30,116}{magistrale procesor - memorie}
+    \begin{itemize}
+        \item scurte, rapide
+        \item de obicei sincrone (sincronizare pe frecvenţa de tact a procesorului)
+        \item monopol de firmă producătoare
+    \end{itemize}
+    \item \textcolor[RGB]{147,30,116}{magistrale de intrare - ieșire (I/O Bus)}
+    \begin{itemize}
+        \item suficent de lungi, pot conecta mai multe tipuri de periferice
+        \item se conectează la memorie prin 1. sau 3.
+        \item respectă standarde de magistrală
+    \end{itemize}
+    \item \textcolor[RGB]{147,30,116}{magistrale de extensie (backplane)}
+    \begin{itemize}
+        \item permit adăugarea în sistem a diferite plăci interschimbabile prin inserarea acestora în conectorii de extensie ai magistralei (socluri sau sloturi)
+        \item rezolvă atât conexiunea procesor – memorie cât şi conexiunea periferice – memorie
+        \item respectă standarde de magistrală
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Modele uzuale de interconctare}}
+
+\begin{tikzpicture}
+\draw (0,0);
+\draw (0,0) rectangle node {PROCESOR} (3,1);
+\draw (3, 0.5) -- (11,0.5);
+\draw (11,0) rectangle node {MEMORIE} (14,1);
+\draw (5,0.5) -- (5,-1);
+\draw (3,-1) rectangle node {Adaptor de magistrală}(7,-2);
+\draw (5,-2) -- (5,-5);
+\draw (5,-3) -- (7,-3);
+\draw (7,-2.5) rectangle node {Adaptor de marginală} (11,-3.5);
+\draw (5,-5) -- (7,-5);
+\draw (7,-4.5) rectangle node {Adaptor de marginală} (11,-5.5);
+\draw (11,-3) -- (14,-3);
+\draw (11,-5) -- (14,-5);
+\draw (12, -3.5) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (11.5, -3.5) -- (11.5, -4); % Desenează latura dreaptă a cilindrului
+   \draw (12.5, -3.5) -- (12.5, -4); % Desenează latura dreaptă a cilindrului
+   \draw (11.5, -4) to[out=-75, in=-75] (12.5, -4); % Desenează latura curbată a cilindrului
+\draw (14, -3.5) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (13.5, -3.5) -- (13.5, -4); % Desenează latura dreaptă a cilindrului
+   \draw (14.5, -3.5) -- (14.5, -4); % Desenează latura dreaptă a cilindrului
+   \draw (13.5, -4) to[out=-75, in=-75] (14.5, -4); % Desenează latura curbată a cilindrului
+\draw (14,-3) --(14,-3.25);
+\draw (12,-3) -- (12, -3.25);
+
+\draw (12, -5.5) ellipse (0.5 and 0.2);
+%Desenează baza cilindrului
+  \draw (11.5, -5.5) -- (11.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (12.5, -5.5) -- (12.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (11.5, -6) to[out=-75, in=-75] (12.5, -6); % Desenează latura curbată a cilindrului
+\draw (14, -5.5) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (13.5, -5.5) -- (13.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (14.5, -5.5) -- (14.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (13.5, -6) to[out=-75, in=-75] (14.5, -6); % Desenează latura curbată a cilindrului
+\draw (14,-5) -- (14,-5.25);
+\draw (12,-5) -- (12, -5.25);
+\node[above] at (7, 0.5) {\textcolor[RGB]{147,30,116}{Magistrală procesor-memorie}};
+\node[above] at (13, -3) {\textcolor[RGB]{147,30,116}{I/O bus}};
+\node[above] at (13, -5) {\textcolor[RGB]{147,30,116}{I/O bus}};
+\node[above] at (3, -4) {\textcolor[RGB]{147,30,116}{Magistrală de extensie}};
+\end{tikzpicture}
+\\
+\\
+
+\begin{tikzpicture}
+\draw(0,0);
+\draw (0,0) rectangle node {PROCESOR} (2,1);
+\draw (12,0) rectangle node {MEMORIE} (14,1);
+\node[above] at (7.5,0.5){\textcolor[RGB]{147,30,116}{Magistrală de extensie}};
+\draw (2,0.5)--(12,0.5);
+\draw (4,0.5)--(4,-0.75);
+\draw (6,0.5)--(6,-0.75);
+\draw (8,0.5)--(8,-0.75);
+\draw (10,0.5)--(10,-0.75);
+
+ \draw (4, -1) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (3.5, -1) -- (3.5, -2); % Desenează latura dreaptă a cilindrului
+   \draw (4.5, -1) -- (4.5, -2); % Desenează latura dreaptă a cilindrului
+   \draw (3.5, -2) to[out=-75, in=-75] (4.5, -2); % Desenează latura curbată a cilindrului
+
+ \draw (6, -1) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (5.5, -1) -- (5.5, -2); % Desenează latura dreaptă a cilindrului
+   \draw (6.5, -1) -- (6.5, -2); % Desenează latura dreaptă a cilindrului
+   \draw (5.5, -2) to[out=-75, in=-75] (6.5, -2); % Desenează latura curbată a cilindrului
+
+ \draw (8, -1) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (7.5, -1) -- (7.5, -2); % Desenează latura dreaptă a cilindrului
+   \draw (8.5, -1) -- (8.5, -2); % Desenează latura dreaptă a cilindrului
+   \draw (7.5, -2) to[out=-75, in=-75] (8.5, -2); % Desenează latura curbată a cilindrului
+
+ \draw (10, -1) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (9.5, -1) -- (9.5, -2); % Desenează latura dreaptă a cilindrului
+   \draw (10.5, -1) -- (10.5, -2); % Desenează latura dreaptă a cilindrului
+   \draw (9.5, -2) to[out=-75, in=-75] (10.5, -2); % Desenează latura curbată a cilindrului
+   
+\end{tikzpicture}
+
+
+\begin{tikzpicture}
+\draw(0,0);
+\node[above] at (7.5,0.5){\textcolor[RGB]{147,30,116}{Magistrală procesor-memorie}};
+\draw (0,0) rectangle node {PROCESOR} (3,1);
+\draw (12,0) rectangle node {MEMORIE} (15,1);
+\draw (3,0.5)--(12,0.5);
+\draw (4.5, 0.5) -- (4.5, -1);
+\draw (7.5, 0.5) -- (7.5, -1);
+\draw (10.5, 0.5) -- (10.5, -1);
+\draw (3.25,-1) rectangle (5.75,-3);
+\node [align=center] at (4.5, -2) {Adaptor de \\ magistrală};
+\draw (6.25,-1) rectangle (8.75,-3);
+\node [align=center] at (7.5, -2) {Adaptor de \\ magistrală};
+\draw (9.25,-1) rectangle (11.75,-3);
+\node [align=center] at (10.5, -2) {Adaptor de \\ magistrală};
+\draw (4.5,-3) -- (4.5,-6);
+\draw (7.5,-3) -- (7.5,-6);
+\draw (10.5,-3) -- (10.5,-6);
+\draw (4.5,-4.25) -- (5.5,-4.25);
+\draw (4.5,-6) -- (5.5,-6);
+\draw (7.5,-4.25) -- (8.5,-4.25);
+\draw (7.5,-6) -- (8.5,-6);
+\draw (10.5,-4.25) -- (11.5,-4.25);
+\draw (10.5,-6) -- (11.5,-6);
+
+\draw (6, -4) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (5.5, -4) -- (5.5, -4.75); % Desenează latura dreaptă a cilindrului
+   \draw (6.5, -4) -- (6.5, -4.75); % Desenează latura dreaptă a cilindrului
+   \draw (5.5, -4.75) to[out=-75, in=-75] (6.5, -4.75); % Desenează latura curbată a cilindrului
+
+ \draw (6, -5.35) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (5.5, -5.35) -- (5.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (6.5, -5.35) -- (6.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (5.5, -6) to[out=-75, in=-75] (6.5, -6); % Desenează latura curbată a cilindrului
+
+   \draw (9, -4) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (8.5, -4) -- (8.5, -4.75); % Desenează latura dreaptă a cilindrului
+   \draw (9.5, -4) -- (9.5, -4.75); % Desenează latura dreaptă a cilindrului
+   \draw (8.5, -4.75) to[out=-75, in=-75] (9.5, -4.75); % Desenează latura curbată a cilindrului
+
+ \draw (9, -5.35) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (8.5, -5.35) -- (8.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (9.5, -5.35) -- (9.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (8.5, -6) to[out=-75, in=-75] (9.5, -6); % Desenează latura curbată a cilindrului
+
+      \draw (12, -4) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (11.5, -4) -- (11.5, -4.75); % Desenează latura dreaptă a cilindrului
+   \draw (12.5, -4) -- (12.5, -4.75); % Desenează latura dreaptă a cilindrului
+   \draw (11.5, -4.75) to[out=-75, in=-75] (12.5, -4.75); % Desenează latura curbată a cilindrului
+
+ \draw (12, -5.35) ellipse (0.5 and 0.2); % Desenează baza cilindrului
+  \draw (11.5, -5.35) -- (11.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (12.5, -5.35) -- (12.5, -6); % Desenează latura dreaptă a cilindrului
+   \draw (11.5, -6) to[out=-75, in=-75] (12.5, -6); % Desenează latura curbată a cilindrului
+\node [align=center] at (4,-5.15) {\textcolor[RGB]{147,30,116}{I/O }\\\textcolor[RGB]{147,30,116}{Bus}};
+\node [align=center] at (7,-5.15) {\textcolor[RGB]{147,30,116}{I/O} \\ \textcolor[RGB]{147,30,116}{Bus}};
+\node [align=center] at (10,-5.15) {\textcolor[RGB]{147,30,116}{I/O} \\ \textcolor[RGB]{147,30,116}{Bus}};
+\end{tikzpicture}
+
+
+\subsubsection{ \textcolor[RGB]{147,30,116}{Standardizarea magistralelor}}
+
+     \hspace{0.5cm}$\rightarrow$ caracterul de sistem deschis al SC moderne
+     
+     $\rightarrow$ două clase importante de magistrale:
+    \begin{enumerate}
+        \item \textcolor[RGB]{147,30,116}{magistrale de sistem} – conectează UC la celelalte componente
+        \item \textcolor[RGB]{147,30,116} {magistrale specializate} – optimizează conectarea şi comunicarea cu un anumit periferic
+    \end{enumerate}
+
+
+\begin{itemize}
+    \item SCSI (Small Computer System Interface)
+    \begin{itemize}
+        \item specific pentru I/O Bus $\Rightarrow$ interfaţă fizică către o magistrală de extensie sau către o magistrală procesor - memorie
+        \item controller SCSI – coordonează transferurile de la periferic spre memorie 
+        
+        $\rightarrow$FireWire (standard IEEE 1394)
+        \begin{itemize}
+            \item rapid, ieftin $\Rightarrow$ conectează componente audio-video
+        \end{itemize}
+    \end{itemize}
+   \item ISA (Industrial Standard Architecture), EISA (Extended ISA)
+   \begin{itemize}
+       \item specific pentru magistrala de extensie pentru conectarea componentelor lente
+   \end{itemize}
+   \item PCI (Peripheral Component Interconnect)
+   \begin{itemize}
+       \item magistrale de mare viteză; specific pentru magistrala de extensie
+       \item recunosc facilitatea Plug\&Play (autoconfigurare)
+   \end{itemize}
+   \item USB (Universal Serial Bus), WUSB (Wireless USB)
+   \begin{itemize}
+       \item interfaţă serială rapidă, bidirecţională
+       \item prelucrarea paralelă
+   \end{itemize}
+   \item SATA (Serial Advanced Technology Attachment), eSATA (external SATA)
+   \begin{itemize}
+       \item foarte rapid, DAR cu alimentare externă (ex. HDD extern)
+   \end{itemize}
+   \item Bluetooth (standard IEEE 802.15)
+   \begin{itemize}
+       \item conectare wireless
+   \end{itemize}
+   \item DVI (Digital Visual Interface) vs HDMI (High-Definition Multimedia Interface)
+\end{itemize}
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=10cm, height=5cm]
+    \centering
+   \color{white} 
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{magistrale2.png} 
+\end{tcolorbox}
+\end{center}
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=10cm, height=7cm]
+  
+    \centering
+   \color{white} 
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{magistrale3.png} 
+\end{tcolorbox}
+\end{center}
+
+\subsection {Conectori}
+
+\begin{center}
+\begin{tcolorbox}[colframe=mynewcolor, colback=white, coltext=white, width=10cm, height=10cm]
+  
+    \centering
+   \color{white}
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{conectori.png} 
+\end{tcolorbox}
+\end{center}
+
+\subsubsection {\textcolor[RGB]{147,30,116}{Comunicaţia serială - COM}}
+\begin{itemize}
+\item informaţia se transmite bit cu bit, \textcolor[RGB]{147,30,116}{pe o singură linie fizică, bi-direcţional}; în practică, pentru o comunicaţie serială sunt necesare minimum 3 fire: unul pentru transmisia într-un sens, altul pentru transmisia în celălalt sens şi al treilea pentru masă (pentru întoarcerea curentului);
+\item standardul pentru comunicaţia serială este RS 232; uzual, porturile seriale de uz general sunt numite COM 1 şi COM 2
+şi folosesc conectori de tip mufă/\textcolor[RGB]{147,30,116}{cuplă} cu 9 pini/\textcolor[RGB]{147,30,116}{orificii} de tip tată/\textcolor[RGB]{147,30,116}{mamă} (engl., male/\textcolor[RGB]{147,30,116}{female}), numit DE9;
+
+\item \textcolor[RGB]{147,30,116}{tastatura} şi \textcolor[RGB]{147,30,116}{mouse}-ul sunt
+conectate prin interfaţă serială;
+\item pentru \textcolor[RGB]{147,30,116}{tastatură} se folosesc trei modele de conectori specifici:
+\begin{itemize}
+\item DIN – cu 5 pini
+\item mini-DIN cu 6 pini, numit şi PS/2
+\item USB
+
+
+\item pentru \textcolor[RGB]{147,30,116}{mouse} se folosesc trei modele de conectori specifici:
+
+\begin{itemize}
+\item mini-DIN cu 6 pini, numit şi PS/2
+\item DE9 de tip mamă al portului serial COM1, caz în care cablul mouse-ului este dotat cu un conector DE9 de tip tată
+\item USB
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+
+
+\begin{itemize}
+\item{ \textcolor[RGB]{147,30,116}{Plăci video/adaptoare grafice}}
+
+
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=12cm, height=10cm]
+    \centering
+    \color{white} 
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{schema_placa_video.png} 
+\end{tcolorbox}
+
+
+\begin{itemize}
+\item din cauza nevoii de transferului mare de date,adaptorul video care conduce monitorul computerului are de obicei o
+conexiune dedicată de mare viteză la Northbridge-ul chipset-ului
+\item adaptoarele video moderne sunt, de asemenea, acceleratoare grafice – conțin  memorie grafică dedicată și un procesor grafic
+\item GPU (unitatea de procesare grafică) poate descărca munca de pe CPU prin efectuarea a multe dintre sarcinile folosite în crearea de imagini 2D sau 3D
+\end{itemize}
+
+\begin{enumerate} 
+\item \textcolor[RGB]{147,30,116}{portul paralel - LPT} (Line Print Terminal, Local Print Terminal sau Line PrinTer )
+\begin{itemize}
+ \item transmite la fiecare moment de
+timp un octet, având astfel 8 linii de date, câte una pentru
+fiecare bit al octetului;
+\item \textcolor[RGB]{147,30,116}{transmisie paralelă, unidirecţională};
+\item iniţial a fost creat pentru conectarea \textcolor[RGB]{147,30,116}{imprimantei}
+
+\begin{itemize}
+ \item interfețe / adaptoare video VGA (Video Graphics Array)
+\begin{itemize}
+\item reprezintă ieşirea plăcii video sau a adaptorului video;
+\item conectează \textcolor[RGB]{147,30,116}{monitorul} sau alte periferice video, e.g. \textcolor[RGB]{147,30,116}{videoproiector};
+\item este caracterizat printr-o cuplă de tip DE 15 - mamă, cu contacte pe 3 rânduri; perifericul se va conecta prin mufa DE15 – tată
+\item deși este o interfață încă folosită,este înlocuită des cu variantele DVI și, mai ales, HDMI.
+\end{itemize}
+\item {\textcolor[RGB]{147,30,116}{Interfeţe video}}
+
+\begin{itemize}
+\item DVI – Digital Visual Interface
+
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=12cm, height=5cm]
+    \centering
+    \begin{adjustbox}{left}
+        \color{white} 
+        \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{dvi.png} 
+    \end{adjustbox}
+\end{tcolorbox}
+
+\item HDMI – High-Definition Multimedia Interface
+\item DVI este cel mai vechi dintre cele două standarde, intrând pe
+piaţă în 1999. Cei \textcolor[RGB]{147,30,116}{29 de pini} sunt folosiţi pentru a \textcolor[RGB]{147,30,116}{transmite semnal video digital necomprimat} spre un dispozitiv de afişare.
+\item HDMI a fost introdus în 2003 şi se diferenţiază conceptual de
+DVI prin faptul că \textcolor[RGB]{147,30,116}{transmite şi semnal audio} prin cei
+19 pini ai săi.
+\end{itemize}
+\end{itemize}
+
+\end{itemize}
+\end{enumerate}
+
+
+\begin{center}
+\begin{tcolorbox}[colframe=mynewcolor, colback=white, coltext=white, width=10cm, height=7.5cm]
+    \centering
+    \color{white} 
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{hdmi_3.png} 
+\end{tcolorbox}
+\end{center}
+\begin{itemize}
+\item \textbf{\textcolor[RGB]{147,30,116}{ISA Bus-Industry Standard Architecture}}
+
+în PC-ul IBM original, toate comunicațiile interne ale casetei de sistem aveau loc prin \textcolor[RGB]{147,30,116}{magistrala de expansiune} care era conectată direct la procesor și memorie și rula la aceeași frecvență de ceas ca și procesorul; nu exista procesor, memorie sau magistrale grafice separate, exista doar \textcolor[RGB]{147,30,116}{magistrala}, iar designul său original se numea \textcolor[RGB]{147,30,116}{ISA};
+
+
+• standardul \textcolor[RGB]{147,30,116}{ISA} original a fost pe 8 biți; următoarea versiune \textcolor[RGB]{147,30,116}{ISA(AT)} era pe 16 biți pentru IBM AT (Advanced Tehnologie) procesorul și Intel 286 și a fost cel mai popular;
+
+
+•  \textcolor[RGB]{147,30,116}{ATA} este descendentul direct al \textcolor[RGB]{147,30,116}{ISA} pe 16 biți a PC/AT
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=12cm, height=6cm]
+    \centering
+    \color{white} 
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{isa.png} 
+\end{tcolorbox}
+\end{center}
+
+\item PCI standard – Peripheral Component Interconnect
+
+\begin{itemize}
+\item este un sistem de interconectare paralel între un microprocesor și multiple dispozitive de înaltă performanță: grafică, full-motion video, rețele locale, etc;
+\item implementat de obicei ca magistrală de expansiune pe 32 de biți, are capacitate de 64 de biți;
+\item dezvoltat de Intel în 1993, \textcolor[RGB]{147,30,116}{PCI} acceptă funcționalitatea \textcolor[RGB]{147,30,116}{PnP} (Plug and Play sau Plug-n Play), avansând standardul \textcolor[RGB]{147,30,116}{ISA};
+\item \textcolor[RGB]{147,30,116}{PCI} a fost mult mai rapid decât \textcolor[RGB]{147,30,116}{ISA} și treptat
+a înlocuit \textcolor[RGB]{147,30,116}{ISA} pe piață;
+\item \textcolor[RGB]{147,30,116}{PC-urie / PCI} exprimă o conexiune în serie care funcționează mai mult ca o rețea decât ca o magistrală; în loc de un magistrala care gestionează date din mai multe surse, \textcolor[RGB]{147,30,116}{PCI-urile} au un \textcolor[RGB]{147,30,116}{comutator} care controlează mai multe conexiuni în serie punct cu punct .
+\end{itemize}
+
+\item AGP standard – Accelerated Graphics Port
+
+\begin{itemize}
+\item cele mai comune interfețe de magistrală între adaptorul video și Northbridge sunt standardele \textcolor[RGB]{147,30,116}{AGP} bazate pe standardele \textcolor[RGB]{147,30,116}{PCI} timpurii;
+\item a fost dezvoltat în 1996 de Intel ca a paralelă de mare viteză punct la punct canal lat de 32 de biți pentru atașarea
+\textcolor[RGB]{147,30,116}{plăcii video/grafice} și \textcolor[RGB]{147,30,116}{acceleratoare 3D} pentru un sistem informatic, în primul rând pentru a permite controlerelor grafice
+ acces direct la sistemul de memorie (ajută la accelerarea pe
+\textcolor[RGB]{147,30,116}{grafica computerului 3D});
+\item în prezent, PCI-ul pe \textcolor[RGB]{147,30,116}{16 biți expres} a fost înlocuit de magistrala grafica \textcolor[RGB]{147,30,116}{AGP}
+\end{itemize}
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=12cm, height=10.5cm]
+    \centering
+    \color{white} 
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{agp.png} 
+\end{tcolorbox}
+\end{center}
+
+\item IDE Bus – Integrated Device/Drive Electronics și ATA – Advanced Technology Attachment
+
+\begin{itemize}
+\item aceasta este o interfață paralelă pe 16 biți care a fost
+folosită pentru a comunica cu \textcolor[RGB]{147,30,116}{unități de disc mai vechi} sau
+dispozitive similare, cum ar fi \textcolor[RGB]{147,30,116}{unități CD, unități DVD,
+Unități pe bandă magnetică};
+\item electronica interfeţei (controller) este încorporată
+unitatea (integrată) și nu este pe o placă separată;
+\item Numele standard ANSI (American National Standard Institute)
+ pentru \textcolor[RGB]{147,30,116}{IDE} este \textcolor[RGB]{147,30,116}{ATA} cu principalele sale variații echivalente \textcolor[RGB]{147,30,116}{SATA} 
+ \begin{itemize}
+ \item în serie ATA și \textcolor[RGB]{147,30,116}{PATA}  
+ \item în paralel ATA, cea din urmă având versiuni îmbunătățite denumite \textcolor[RGB]{147,30,116}{ATA-2} și mai mult.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=12cm, height=7cm]
+    \centering
+    \color{white} 
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{SATA_PATA.jpg} 
+\end{tcolorbox}
+\end{center}
+
+\item{\textbf{ \textcolor[RGB]{147,30,116}{SATA Bus – Serial ATA}}}
+
+\begin{itemize}
+\item începând din 2004, soluția \textcolor[RGB]{147,30,116}{SATA} transmite
+date doar un singur bit pe moment (magistrală bit-wide) \textbf{dar} o frecvență pe ceas mult mai mare, permițând o lățime de bandă totală mai mare;
+\item este fizic și electric complet diferit de standardele originale \textcolor[RGB]{147,30,116}{ATA}, dar este conceput pentru a fi compatibil din punct de vedere al softwar-ului cu \textcolor[RGB]{147,30,116}{ATA} mai vechi;
+\item pentru a conecta discuri, \textcolor[RGB]{147,30,116}{SATA} a înlocuit interfață \textcolor[RGB]{147,30,116}{IDE} paralelă, fiind echivalentul ei în serie;
+\item este disponibil și în versiunea \textcolor[RGB]{147,30,116}{eSATA} (\textbf{SATA extern}), care permite conectivitatea cu \textcolor[RGB]{147,30,116}{hard disk-uri externe}
+\end{itemize}
+
+\begin{center}
+\begin{tcolorbox}[colframe=mynewcolor, colback=white, coltext=white, width=12cm, height=7.5cm]
+    \centering
+    \color{white} 
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{sata_esata1.jpg} 
+\end{tcolorbox}
+\end{center}
+
+\item {\textbf{ \textcolor[RGB]{147,30,116}{SCSI bus -Small Computer System Interface [sk$\land$zy]}}}
+
+\begin{itemize}
+\item este cea mai comună alternativă la \textcolor[RGB]{147,30,116}{ATA/IDE}
+pentru a conecta hard disk-uri în interiorul unui computer;
+\item este un set de înaltă performanță de 
+standarde de interfață paralelă pe 16 biți, 50-pini, 68-pini și 80- pin, dezvoltate de ANSI pentru atașare rapidă de \textcolor[RGB]{147,30,116}{imprimante, unități de disc, scanere} și altele periferice pentru calculatoare;
+\item Controlerele și dispozitivele \textcolor[RGB]{147,30,116}{SCSI} sunt inteligente – au microcontrolere în interiorul lor, ușurând munca CPU-ului;
+\item statistic, unitățile \textcolor[RGB]{147,30,116}{SCSI} sunt mai fiabile decât unitățile \textcolor[RGB]{147,30,116}{ATA/IDE}, dar creează mai multă căldură și zgomot și sunt mai scumpe...;
+\end{itemize}
+
+%\end{itemize}
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=12cm, height=12cm]
+    \centering
+    \color{white} 
+    \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio]{scsi_conectori.png} 
+\end{tcolorbox}
+\end{center}
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Posibilităţi de a conecta diferitele
+echipamente de intrare-ieşire la un PC}}
+
+In evoluţia SC:
+\begin{itemize}
+\item există destul de multe posibilităţi de a conecta diferitele
+echipamente de intrare-ieşire la un PC;
+unele dintre acestea necesită:
+\begin{itemize}
+\item deconectarea SC de la reţeaua electrică;
+\item desfacerea box-ului calculatorului şi introducerea unei plăci de extensie într-unul din conectorii PCI sau ISA;
+\item dacă plăcile nu sunt de tip PnP, acestea au comutatoare sau jumpere care trebuie configurate;
+\item apoi trebuie reconectat calculatorul;
+\end{itemize}
+\item altele pot fi conectate la una din cuplele magistralelor standard (paralelă sau serială), însă numărul acestora este limitat şi, în plus, nu asigură o viteză de transfer suficientă;
+\item există nenumărate tipuri de conectori şi, respectiv, cabluri.
+\end{itemize}
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Conectarea la reţeaua de calculatoare}}
+
+
+\textcolor[RGB]{124, 13, 208} {O rețea de calculatoare leagă o mulțime mai mică sau mai mare de calculatoare, permițând unuia dintre ele să acceseze datele, programele și facilitățile sau resursele unui altuia conectat la aceeași rețea, fiind în general nevoie de măsuri de restricție a accesului.}
+
+\textcolor[RGB]{124, 13, 208} {Există mai multe metode de conectare la rețeaua de internet, precum cabluri metalice și de fibră optică, chiar submarine, legături fără fir prin unde radio cum ar fi Wi-Fi, WiMAX sau Bluetooth, prin raze infraroșii, ca de exemplu IrDA, sau prin intermediul sateliților.}
+
+O metode de conectare la rețea este conectorul RJ45 (Registered Jack 45), un conector cu 8 fire, folosit în reţele locale, în special de tip Ethernet. \textbf{ \textcolor[RGB]{147,30,116}{Arată la fel ca RJ11}} \textbf{folosit în telefonie}, doar că este mai lat.
+
+\begin{center}
+\begin{tcolorbox}[colframe=mynewcolor, colback=white, coltext=white, width=12cm, height=5cm]
+    \centering
+    \color{white} 
+    \includegraphics[width=0.7\textwidth, height=0.5\textheight, keepaspectratio]{rj45_rj11.png} 
+\end{tcolorbox}
+\end{center}
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=12cm, height=5cm]
+    \centering
+    \color{white} 
+    \includegraphics[width=0.7\textwidth, height=0.5\textheight, keepaspectratio]{pairs_rj45_rj11.png} 
+\end{tcolorbox}
+\end{center}
+
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Magistrala USB}}
+
+\begin{itemize}
+\item a fost introdusă pentru a înlătura toate neajunsurile anterioare.
+\item Obiectivele acestei magistrale au fost:
+\begin{enumerate}
+\item utilizatorii nu trebuie să aibă de poziţionat comutatoare sau jumpere
+pe plăci sau pe echipamente;
+\item pentru a instala noi dispozitive de I/O, utilizatorii nu trebuie să
+deschidă box-ul calculatorului;
+\item trebuie să existe un singur tip de cablu, pentru conectarea tuturor
+dispozitivelor;
+\item ataşarea a până la 127 de dispozitive la un calculator;
+\item dispozitivele trebuie să poată fi instalate în timp ce calculatorul
+funcţionează*;
+\item după instalarea unui nou dispozitiv să nu trebuiască să fie repornit
+calculatorul;
+\end{enumerate}
+\end{itemize}
+
+$\star$\textcolor[RGB]{147,30,116}{PnP} = facilităţi de conectare şi configurare
+
+$\star$\textcolor[RGB]{147,30,116}{hot swappable} = cuplarea/decuplarea dispozitivelor în timpul funcţionării SC
+
+\textbf{USB}
+\\
+\\
+\begin{tabular}{|c|c|c|}
+  \hline
+  Tip USB & Bandă de lățime & Viteză de transmitere \\
+  \hline
+  USB 1.0 & 1,5 Mbps & 187,5 KBps \\
+  USB 1.1 & 12 Mbps & 1,5 MBps \\
+  USB 2.0 & 480 Mbps & 60 MBps \\
+  USB 3.0 & 5 Gbps & 610 MBps \\
+  USB 3.2 Gen 1 & 5 Gbps & 5 Gbps \\
+  USB 3.2 Gen 2 & 10 Gbps & 10 Gbps \\
+  USB 3.2 Gen2x2 & 20 Gbps & 20 Gbps \\
+  \hline
+\end{tabular}
+\\
+\\
+$\star$Specificațiile pentru standardul USB 3.1. au fost disponibile în iulie 2013, aducând o creștere la 10Gbps rată de transfer – dublu față de USB 3.0.$\star$
+
+\begin{center}
+\begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=12cm, height=2.5cm]
+  
+    \centering
+   \color{white} 
+    \includegraphics[width=1\textwidth, height=1\textheight, keepaspectratio]{usb.png} 
+\end{tcolorbox}
+\end{center}
+
+\begin{figure}[!h]
+  \centering
+  \begin{tcolorbox}[colframe=mycolor, colback=white, coltext=white, width=12cm, height=4cm]
+    \begin{subfigure}[c]{0.5\textwidth}
+      \centering
+      \includegraphics[width=1.0\linewidth]{usb1.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.4\textwidth}
+      \centering
+      \includegraphics[width=0.8\linewidth]{usb2.png}
+    \end{subfigure}
+  \end{tcolorbox}
+\end{figure}
+
+\begin{tikzpicture}[node distance=3cm, every node/.style={circle, draw, minimum size=1cm}]
+
+  % Define the nodes (circles) with customizable coordinates
+  \node (start) {USB};
+  \foreach \i/\x/\y in {Input/0/4, Personal storage/3/3, Printers/5/1, Scanners/6/-1, Networks/6/-3, Smartcards/7/-5, Biometric/4/-5, Cell phones/4/-7, Digital Still Cameras/0/-5, Bluetooth/-4/-6.5, JG/-4/-4, WinUSB/-5/-2, Video/-5/0, Audio/-4/2} {
+    \coordinate (c\i) at (\x, \y);
+    \node at (c\i) (circle\i) {\i};
+  }
+  
+  % Connect the circles with lines
+  \foreach \i in {Input,Personal storage,Printers,Scanners,Networks,Smartcards,Biometric,Cell phones,Digital Still Cameras,Bluetooth,JG,WinUSB,Video,Audio} {
+    \draw (start) -- (circle\i);
+  }
+
+\end{tikzpicture}
+
+\subsection{ \textcolor[RGB]{147,30,116}{Surse de informare suplimentare}}
+
+
+
+\href{https://www.youtube.com/watch?v=DCcJ5U9dGTs}{Componentele plăcii de bază}
+
+\href{https://www.youtube.com/watch?v=b2pd3Y6aBag}{Cum funcționează o placă de bază}
+
+
+\href{https://svanews.com/2016/11/07/types-of-computer-ports-and-their-functions/}{Conectori}
+
+\href{https://computer-answers.ca/2012/computer-questions/q-what-is-the-difference-between-sata-and-pata/}{Diferența între SATA și PATA}
+
+\href{https://tesfayscomputertips.quora.com/Whats-the-Difference-Between-SATA-and-eSATA-Drives}{SATA și eSATA}
+
+\href{https://www.youtube.com/watch?v=W0KDnF8mQaU}{RH11 și RJ45}
+
+\href{https://www.digitalcitizen.ro/intrebari-simple-este-usb-sau-magistrala-seriala-universala/}{USB}
+
+\section{\fontsize{12}{16}\selectfont UNITATEA DE MEMORIE}
+{\color{black} \rule{\linewidth}{0.5mm}}
+%\section{Introducere în sistemele de calcul}
+
+
+%\large{\textbf {Cuprins}}
+\begin{tcolorbox}[colframe=black, colback=white]
+\begin{enumerate}
+\item Structura fizică a memoriei
+
+\item Clasificarea dispozitivelor de memorare
+
+\item Tehnologii de realizare a memoriilor. Memorii semiconductoare
+
+\item Structura ierarhică de organizare a memoriei
+
+\end{enumerate}
+\end{tcolorbox}
+
+\textcolor[RGB]{124, 13, 208}{Unitatea de memorie este unitatea funcțională a calulatorului, destinată păstrării conținutului - date, informații, instrucțiuni - pentru toate tipurile de beneficiari - umani, virtuali (aplicații, cloud).}
+\\
+ \textcolor[RGB]{147,30,116}{Unitatea de memorie }  este o colecție de:
+ \begin{itemize}
+     \item  \textcolor[RGB]{147,30,116}{medii de memorare} = componente destinate memorării datelor;
+     \item  \textcolor[RGB]{147,30,116}{soluții electrice/magnetice}, necesare pentru:
+     \begin{itemize}
+         \item gestiunea memoriei;
+         \item transferul de date/instrucțiuni înspre și dinspre memorie;
+     \end{itemize}
+ \end{itemize}
+ \end{itemize}
+
+ \subsection{Structura fizică a memoriei}
+
+\begin{center}
+    \textbf{\textcolor[RGB]{147,30,116}{memoria = mediu de memorare + circuite}}
+\end{center}
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Cuvinte cheie:}}
+\begin{itemize}
+    \item bit (\textcolor[RGB]{124, 13, 208}{valoare binară - binary digit}), bit de informație (\textcolor[RGB]{124, 13, 208}{bitul împreună cu contextul lui, cu toate informațiile care vin împreună cu detaliul de valoare})
+    \item celulă-bit 
+    \begin{itemize}
+        \item particule magnetice (\textcolor[RGB]{124, 13, 208}{structura care rezolvă memorarea pe componentele de tip disc magnetic}) cu polaritate (\textcolor[RGB]{124, 13, 208}{0 sau 1 logic}) specifică $\rightarrow$ discuri magnetice
+        \item porți logice NAND/NOR $\rightarrow$ memorii semiconductoare
+        \begin{itemize}
+            \item circuit electronic cu două stări stabile - bistabil, condensator $\rightarrow$ RAM, registre
+            \item dispozitiv electronic cu două stări - diodă, tranzistor $\rightarrow$ ROM, flash, SSD
+        \end{itemize}
+    \end{itemize}
+    \item locație de memorie (\textcolor[RGB]{124, 13, 208}{suport de memorare, care poate să aibă în fiecare moment un conținut specific}), octet, cuvânt de memorie (capacitatea cuvântului de memorie este dată de lărgimea de bandă a magistralei-procesor (numărul de conductori))
+    \item adresă de memorie (octet adresabil - \textcolor[RGB]{124, 13, 208}{fiecare octet în memorie este identificat in mod unic prin adresarea octetului respectiv})
+    \item capacitatea memoriei, byte (\textcolor[RGB]{124, 13, 208}{succesiune de 8 biți})
+    \begin{itemize}
+        \item 1KB, 1MB, 1GB, 1TB - multipli informatici (puteri ale lui 2)
+    \end{itemize}
+    \item LSB - Least Significant Bit - \textcolor[RGB]{124, 13, 208}{cel mai puțin semnificant bit la dreapta cu numerotarea puterii bazei 2 de la dreapta la stânga}
+    \item MSB - Most Significant Bit - \textcolor[RGB]{124, 13, 208}{cel mai semnificant bit la dreapta cu numerotarea puterii bazei 2 de la stânga la dreapta crescător}
+\end{itemize}
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Celula binară} (celula de memorie binară)}
+\begin{itemize}
+    \item \textcolor[RGB]{147,30,116}{puncte magnetice pe platane dure} care se rotesc la viteze mari pentru a permite axului cu capete de scriere-citire să acceseze memoria sau să scrie în memorie (prin stabilirea polarității magnetice corespunzătoare a punctelor respective) $\rightarrow$ \textcolor[RGB]{147,30,116}{disc magnetic / disc dur}
+    \item \textcolor[RGB]{147,30,116}{puncte de pe disc care reflectă lumina și care au polaritate diferită}, în funcție de orientarea câmpului magnetic $\rightarrow$ \textcolor[RGB]{147,30,116}{disc magneto-optic (disc magnetic și tehnologie optică de memorare}
+    \item \textcolor[RGB]{147,30,116}{puncte pe disc cu iluminare a suprafeței cu unde laser și observare a reflexiei} $\rightarrow$ \textcolor[RGB]{147,30,116}{disc optic}
+    \item porți logice \textcolor[RGB]{147,30,116}{NAND / NOR} $\rightarrow$ \textcolor[RGB]{147,30,116}{memorie semiconductoare}
+    \begin{itemize}
+        \item dispozitive semiconductoare - diode $\rightarrow$ \textcolor[RGB]{147,30,116}{bloc ROM}
+        \item dispozitive semiconductoare - tranzistori $\rightarrow$ \textcolor[RGB]{147,30,116}{NAND flash memory: stick, card, SSD}
+        \item bistabili / circuite bistabile (latches, flip-flops) $\rightarrow$ \textcolor[RGB]{147,30,116}{bloc SRAM}
+        \item condensator $\rightarrow$ \textcolor[RGB]{147,30,116}{bloc DRAM}
+        
+        \end{itemize}
+\end{itemize}
+
+\begin{center}
+    \textcolor[RGB]{147,30,116}{Memoria nu este altceva decât o stare care persistă în timp.\\Celula bit ține minte un bit de informație la un moment dat, în anumite condiții.}
+\end{center}
+ 
+ \subsection{Clasificarea dispozitivelor de memorare}
+ Principalele \textcolor[RGB]{147,30,116}{tehnologii de realizare a memoriilor}: tambur magnetic, inele de ferită, cartele perforate, bandă magnetică, disc magnetic, circuite semiconductoare, procedee optice.
+ \\ După \textcolor[RGB]{147,30,116}{ tipul de acces la date}:
+ \begin{itemize}
+     \item \textcolor[RGB]{147,30,116}{memorii cu acces aleator} - ex. RAM, ROM, Flash
+     \begin{itemize}
+         \item locațiile pot fi citite/scrise pe bază de adresă într-o ordine oarecare
+         \item fiecare locație poate fi selectată aleator și accesată direct
+     \end{itemize}
+     \item \textcolor[RGB]{147,30,116}{memorii cu acces asociativ} - ex. memorie Cache
+     \begin{itemize}
+         \item locația căutată este identificată prin conținut
+     \end{itemize}
+     \item \textcolor[RGB]{147,30,116}{memorie cu acces secvențial} - ex. benzi magnetice
+     \item \textcolor[RGB]{147,30,116}{memorie cu acces direct} - ex. disc
+ \end{itemize}
+
+\subsection{Memorii semiconductoare}
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Definiție}}
+\textcolor[RGB]{147,30,116}{Memorii semiconductoare} = circuite integrate bazate pe metale semiconductoare (Si, Ge);
+\\
+\textcolor[RGB]{147,30,116}{Celulă-bit} = circuit de memorie cu capacitatea de 1 bit;
+\\
+\textcolor[RGB]{147,30,116}{Cuânt-memorie} = conținutul unui cuvânt de memorie;
+\\ 
+\textcolor[RGB]{147,30,116}{Spațiu de adresare} = domeniul adreselor locațiilor unui circuit de memorie;
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Parametrii caracteristici}}
+\begin{itemize}
+    \item \textcolor[RGB]{147,30,116}{geometria}: dispunerea celulelor-bit, lungimea cuvântului-memorie, modul de adresare a cuvintelor;
+    \item \textcolor[RGB]{147,30,116}{capacitatea};
+    \item \textcolor[RGB]{147,30,116}{latența} sau \textcolor[RGB]{147,30,116}{timpul de acces}: t$_{acces}$ = t$_{DateOut}$ - t$_{AdrIn}$;
+    \item \textcolor[RGB]{147,30,116}{ciclul memoriei}: intervalul de timp dintre două aplicări succesive de adresă pe liniile de intrare în circuitul de memorie; se măsoară în ns sau $\mu$s;
+    \item \textcolor[RGB]{147,30,116}{puterea consumată}: se măsoară în $\mu$W/bit;
+    \item \textcolor[RGB]{147,30,116}{volatilitatea}: memoria volatilă VS memoria nevolatilă (permanentă);
+    \item \textcolor[RGB]{147,30,116}{tehnologia de realizare}:
+    \begin{itemize}
+        \item \textcolor[RGB]{147,30,116}{memorii bipolare}: foarte rapide, densitate mică de integrare, tehnologii: TTL, ECL;
+        \item \textcolor[RGB]{147,30,116}{memorii MOS}: latență mai mare, densitate mare de integrae, putere consumată mică, viteză mică la operații de scriere-citire; ex. \textcolor[RGB]{147,30,116}{memoriile flash} = carduri de memorie, dispozitive flash USB, camere digitale, telefoane mobile
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{\textcolor[RGB]{147,30,116}{Operații specifice}}
+\begin{itemize}
+    \item citire
+    \begin{itemize}
+        \item \textcolor[RGB]{147,30,116}{ROM} (Read Only Memory) = memorii de capacitate mică, cu viteză mare de acces la date; actual - componentă UCP pentru programul de control sau ca suport pentru BIOS (Basic Input Output Sysyem = set de aplicații low-level pentru: inițializarea sistemului, verificarea inițială a perifericelor, accesul primar la periferice, funcțiile de bază pentru unele dispozitive auxiliare (dispozitive mobile, controlere de rețea, controlere video));
+    \end{itemize}
+    \item citire și scriere - tehnologie pentru citire-scriere
+    \begin{itemize}
+     \item \textcolor[RGB]{147,30,116}{RAM} (Random Acces Memory) = memorii cu acces aleator
+        \item \textcolor[RGB]{147,30,116}{SRAM} (Static RAM) - usual, celula-bit a unei memorii RAM statice este un bistabil;
+        \item \textcolor[RGB]{147,30,116}{DRAM} (Dynamic RAM) - uzual, celula-bit a unei memorii RAM dinamice este un condensator;
+    \end{itemize}
+   \item programare - memorii PROM
+   \item regenerare - citire incompletă
+   \begin{itemize}
+       \item utilă în memoriile DRAM;
+       \item rata uzuală de regenerare este ~2ms/NN, unde NN = numărul de nivele de celule - bit din geometria memoriei (ex. 2ms/128 $\approx$ 15,625$\mu$s)
+   \end{itemize}
+\end{itemize}
+
+\textcolor[RGB]{147,30,116}{Bloc standard de memorie RAM}
+\\
+\\
+\begin{tikzpicture}
+    \draw (0,0);
+    \draw [->] (0, 0) -- (2,0);
+    \draw [->] (0,-0.5) -- (2,-0.5);
+    \draw [->] (0, -1) -- (2,-1);
+    \draw [->] (4, 1.5) -- (4, 0.5);
+    \draw (2.25,0.5) rectangle (5.75,-1.5);
+\node [align=center] at (4, -0.5) {Unitate de memorie \\ cu 2$^{k}$ octeți și \\ n biți pe cuvânt};
+    \draw [->] (4,-1.5) -- (4,-2.5);
+    \node [align=center] at (0.75, -0.35) {Read};
+    \node [align=center] at (0.75, -0.85) {Write};
+    \node [align=center] at (4, 1.75) {n linii de date de intrare};
+    \node [align=center] at (4, -3) {n linii de date de ieșiere};
+    \node [align=center] at (-0.5, 0.5) {k linii de adresă};
+\end{tikzpicture}
+\\
+\\
+\\
+
+\textcolor[RGB]{147,30,116}{Bloc standard de memorie ROM}
+\\
+\\
+\begin{tikzpicture}
+    \draw (0,0);
+    \draw [->] (-2, 0) -- (2,0);
+
+    \draw (2.25,0.5) rectangle (5.75,-1.5);
+\node [align=center] at (4, -0.5) {Unitate de memorie \\ cu 2$^{k}$ octeți și \\ n biți pe cuvânt};
+    \draw [->] (4,-1.5) -- (4,-2.5);
+ 
+    \node [align=center] at (4, -3) {n linii de date de ieșiere};
+    \node [align=center] at (-0.5, 0.5) {k linii de intrare de adresă};
+\end{tikzpicture}
+\\
+\subsection{Structura ierarhică de organizare}
+
+\begin{itemize}
+\item În timpul execuţiei lor, programele accesează în orice
+moment o zonă relativ mică a spaţiului de adrese.
+\item Această observaţie a condus la delimitarea unor aspecte fundamentale în utilizarea memoriei, care sunt recunoscute ca \textcolor[RGB]{147,30,116}{principiul localizării}:
+\begin{itemize}
+\item \textcolor[RGB]{147,30,116}{principiul localizării temporale}
+\item \textcolor[RGB]{147,30,116}{principiul localizării spaţiale}
+\end{itemize}
+\item Aplicarea principiului localizării a condus la organizare ierarhică a memoriei. O \textcolor[RGB]{147,30,116}{ierarhie de memorie} constă în nivele de memorii cu viteze de acces diferite şi de dimensiuni diferite
+\end{itemize}
+
+\begin{itemize}
+\item p.v. \textcolor[RGB]{147,30,116}{\textbf{utilizator}}
+\begin{itemize}
+\item \textcolor[RGB]{147,30,116}{memorie externă}
+\begin{itemize}
+\item este la dispoziţia \textcolor[RGB]{147,30,116}{utilizatorului}
+\item se conectează la SC prin \textcolor[RGB]{147,30,116}{interfeţe I/O}
+\end{itemize}
+\item \textcolor[RGB]{147,30,116}{memorie internă}
+\begin{itemize}
+\item este accesibilă pentru \textcolor[RGB]{147,30,116}{UCP}
+\item este accesată direct de \textcolor[RGB]{147,30,116}{UCP} prin intermediul \textcolor[RGB]{147,30,116}{magistralelor}, fără 
+intermediul canalelor de comunicaţie de I/O
+\end{itemize}
+\end{itemize}
+\item p.v. \textcolor[RGB]{147,30,116}{\textbf{programator}} – informaţia stocată în memorie trebuie corelată cu
+programul curent de executat:
+\begin{itemize}
+\item \textcolor[RGB]{147,30,116}{memorie secundară}
+conţine informaţia \textcolor[RGB]{147,30,116}{păstrată} pentru o \textbf{eventuală} utilizare ulterioară
+\item \textcolor[RGB]{147,30,116}{memorie principală}
+conţine informaţia \textcolor[RGB]{147,30,116}{în curs de} utilizare (utilizată \textcolor[RGB]{147,30,116}{curent} de UCP)
+\end{itemize}
+
+\item ierarhie de memorie
+
+\begin{itemize}
+\item constă din \textbf{nivele de memorie}, cu diferite valori pentru \textcolor[RGB]{147,30,116}{timpul de acces} și \textcolor[RGB]{147,30,116}{capacitate}; cu cât crește \textbf{distanța} de la procesor la memorie, cu atât mai mult cresc și capacitatea componentelor de memorare și timpul de acces la memoriile respective;
+\item se referă la utilizarea eficientă a nivelelor de memorie dispuse de tip mai mare, mai lent (larger but slower) - \textcolor[RGB]{147,30,116}{high storage capacity with low average latency};
+\item prin faptul că \textbf{încarcă} și \textbf{memorează} conținut ȘI \textbf{din} locațiile \textbf{vecine}
+celor accesate, \textcolor[RGB]{147,30,116}{memoria cache} este foarte probabil să conțină mereu
+datele solicitate de procesor; dacă \textcolor[RGB]{147,30,116}{datele necesare procesorului} nu sunt
+găsite în cache, ele \textbf{trebuie} aduse de pe \textbf{nivelele următoare de memorie} (mem principală, mem secundară, mem de arhivare) – \textcolor[RGB]{147,30,116}{datele sunt copiate numai între două nivele adiacente la un moment dat}.
+
+\end{itemize}
+\end{itemize}
+
+
+
+\begin{tikzpicture}
+ \draw (0,0);
+\draw (0,0) rectangle (4,-1.5);
+\node [align=center] at (2, -0.75) {Memoria de arhivare \\ (auxiliară) };
+\draw [<->] (2,-1.6) -- (2,-2.4);
+\draw (0,-2.5) rectangle(4,-3.5);
+\node [align=center] at (2,-3){Memoria secundară};
+\draw [<->] (2,-3.6) -- (2,-4.4);
+\draw (0,-4.5) rectangle(4,-5.5);
+\node [align=center] at (2,-5){Memoria operativă};
+\draw [<->] (2,-5.6) -- (2,-6.4);
+\draw (0,-6.5) rectangle(4,-7.5);
+\node [align=center] at (2,-7){Memoria cache};
+
+ \draw (4.5,-0.75)--(5,-2);
+ \draw (4.5, -3) --(5,-2);
+ \draw (5,-2) -- (8,-2);
+ \node[align=center] at (6.5,-1.5){Memorie externă};
+
+  \draw (4.5,-5)--(5,-6);
+ \draw (4.5, -7) --(5,-6);
+ \draw (5,-6) -- (8,-6);
+ \node[align=center] at (6.5,-5.5){Memorie internă};
+ \draw [<->] (2,-7.6) -- (2,-8.7);
+ \draw (-2,-8.75) rectangle(1.5,-10.25);
+\node [align=center] at (-0.25,-9.5){UCP};
+\draw [<-] (1.65,-9) -- (2.8,-9);
+\draw [<-] (1.65,-10) -- (2.8,-10);
+\draw (2.8,-8.55) rectangle(5.5,-9.45);
+\node [align=center] at (4.15,-9){cache on-chip};
+\draw (2.8,-9.55) rectangle(5.5,-10.45);
+\node [align=center] at (4.15,-10){registre};
+\end{tikzpicture}
+
+
+ \textcolor[RGB]{147,30,116}{Memoria operativă} conţine datele şi instrucţiunile pentru toate procesele active la un moment dat.
+ \\
+ \textcolor[RGB]{147,30,116}{Memoria secundară} apare la sistemele care cunosc mecanismul de memorie virtuală. Aceasta reprezintă
+o extensie logică a memoriei operative. \\
+
+
+\begin{tikzpicture}
+    \draw(0,0);
+    \draw (0,0) rectangle (-5,-5);
+    \node at (-2.5,-1){Memorie auxiliară};
+    \draw (-0.5,-1.5) rectangle(-4.5,-3);
+    \draw (-0.5,-3.25) rectangle (-4.5,-4.75);
+    \node at(-2.5,-2.25){Banda magnetică};
+    \node at(-2.5,-4){Disc magnetic};
+    \draw [<->] (0.25,-2.25) -- (1.25,-2.25);
+    \draw [<->] (0.25,-4) -- (1.25,-4);
+    \draw (1.5,-2.1) rectangle (3,-4.15);
+    \node [align=center] at (2.25,-3.125){Procesor\\I/O};
+    \draw (4.5,-2.25) rectangle (7.5,-4);
+    \draw [<->] (3.25,-3.125) -- (4.25,-3.125);
+    \node [align=center] at (6,-3.125){Memorie\\principală};
+    \draw (4.5,-5.5) rectangle (7.5,-7);
+    \draw [<->] (6,-4.25) -- (6,-5.25);
+    \node [align=center] at (6,-6.25){Memorie\\cache};
+    \draw (1.75,-5.75) rectangle (2.75,-6.75);
+    \node [align=center] at (2.25,-6.25){UCP};
+     \draw [<->] (3,-6.25) -- (4.25,-6.25);
+     \draw [<-]  (3,-6) -- (3.75,-6);
+     \draw [-](3.75,-6)--(3.75,-5);
+     \draw [-](3.75,-5)--(4.75,-5);
+     \draw [->](4.75,-5)--(4.75,-4.25);
+\end{tikzpicture}
+\textcolor[RGB]{147,30,116}{Memorie principală} - date și programe utilizate curent / \textcolor[RGB]{147,30,116}{în curs de utilizare} de procesor (DRAM);
+\\
+\textcolor[RGB]{147,30,116}{Memorie cache} = datele cele mai \textcolor[RGB]{147,30,116}{recente utilizate} de procesor - principiul localizării, principiul vecinătății (DRAM);
+
+\subsection{Surse de informare suplimentare}
+
+\hspace{0.4 cm}
+\href{https://www.youtube.com/watch?v=PujjqfUhtNo}{Unitatea de memorie}
+
+\href {https://www.youtube.com/watch?v=EXCuCh058tE}{Cum functioneza Memoriile RAM, ROM si Spatiul de stocare HDD, SSD}
+
+\section{\fontsize{12}{16}\selectfont PROIECTAREA CALCULATOARELOR MODERNE}
+{\color{black} \rule{\linewidth}{0.5mm}}
+
+\begin{itemize}
+    \item \textcolor[RGB]{147,30,116}{Principiul 1: }Simplitatea favorizează uniformitatea.
+    \item \textcolor[RGB]{147,30,116}{Principiul 2: }Mai mic înseamnă mai rapid.
+    \item \textcolor[RGB]{147,30,116}{Principiul 3: }Proiectarea bună necesită compromisuri bune.
+    \item \textcolor[RGB]{147,30,116}{Principiul 4: }Cazul frecvent trebuie făcut să aibă execuție rapidă.
+\end{itemize}
+
+\begin{flushright}
+\textcolor[RGB]{147,30,116}{Patterson \& Hennessy}
+\end{flushright} 
+
+\section{\fontsize{12}{16}\selectfont AUTOEVALUARE}
+{\color{black} \rule{\linewidth}{0.5mm}}
+\subsection{Teste pe internet}
+
+
+\href{https://view.livresq.com/view/5faaeaa24d37810007d844fc/}{Dispozitive de intrare/ieșire}
+
+
+\href{https://elearning.masterprof.ro/lectiile/informatica/lectie_01/test_de_evaluare.html}{Componente calculator}
+
+
+\href{https://wordwall.net/resource/245409/computing/motherboard}{Placa de bază}
+
+
+\href{https://compsciedu.com/mcq-questions/Computer-Hardware/System-Bus}{Magistrală}
+
+
+\href{https://www.indianstudyhub.com/computer-organization/bus-structure-mcqs}{Magistrală și organizarea computerelor}
+
+
+\href{https://wordwall.net/ro/resource/53592061/sistemul-de-calcul}{Sisteme de calcul}
+
+\subsection{Teste pe hârtie}
+\begin{enumerate}
+\item \textcolor[RGB]{124, 13, 208}{Rezolvați rebusul următor și găsiți cuvântul ascuns pe coloana indicată:}
+\\
+
+\begin{tikzpicture}
+\draw(0,0);
+    \node at (0,0) {
+        \begin{tabular}{c c c c c c c c c c c c c c c c c c c c c}
+        
+             &&&&&&&&&*&\\
+             &&&&&&&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank\\
+
+             &&&&&&&&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank& \\
+
+            &\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank\\
+           
+            &&&&&&&&&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank\\
+
+            &&&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\\
+            
+            &&&&&&&&&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\\
+            
+            \blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank\\
+            
+            &&&&&&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\\
+
+            &&&&&&&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\\
+
+            &&&&&&&&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\blank&\\
+
+            &&&&&&&&&*&\\
+        
+        \end{tabular}
+    };
+     
+\end{tikzpicture}
+
+ \textcolor[RGB]{124, 13, 208}{ Întrebări:}
+   \begin{enumerate}
+       \item Ce componentă a calculatorului efectuează operațiile esențiale de prelucrare și controlează celelalte elemente ale sistemului de calcul, fiind supranumită și "creierul calculatorului"?
+       \item Resursele fizice se mai numesc și ...
+       \item Ce reprezintă calea prin care circulă datele în interiorul unui calculator, între două sau mai multe elemente ale acestuia.
+       \item Cum se numește dispozitivul care unește circuite electrice?
+       \item Componente hardware de intrare care permite utilizatorului să introducă date (numere, cifre sau semne speciale) prin apăsare de butoane.
+       \item Timpul de acces mai este numit și ...
+       \item Componentă periferică de ieșire utilizată pentru transpunerea informațiilor din calculator pe hârtie.
+       \item Canalul ... lucrează simultan cu mai multe periferice.
+       \item Memoria cache este o memorie cu acces ...
+       \item Care este elementul principal al unui sistem de calcul și care încorporează funcțiile unității centrale de prelucrare a informației a unui calculator sau a unui sistem electronic structurat funcțional?
+    \end{enumerate}
+    
+\item \textcolor[RGB]{124, 13, 208}{ Specificaţi prin A (Adevărat) sau F (Fals) valoarea de adevăr a următoarelor propoziţii:}
+
+\begin{enumerate}
+    \item Procesorul citeşte datele din memoria externă. \blank
+    \item Memoria ROM conţine BIOS-ul. \blank
+    \item Modemul este componenta carepermite sa folosim o reţea prin intermediul liniei telefonice sau prin cablu. \blank
+    \item Ştergerea caracterului aflat la dreapta cursorului se realizează cu tasta BACK SPACE. \blank
+    \item Coolerul este un mic circuit de pe placa de baza pentru parolarea calculatorului. \blank
+    \item Echipamentele periferice asigură comunicarea om-maşină şi stocarea unui volummare dedate. \blank
+    \item Memoria video este montată pe placa de bază. \blank
+
+\end{enumerate}
+
+\item \textcolor[RGB]{124, 13, 208}{Completaţi în spaţiile libere numele dispozitivului care credeti ca are caracteristicile enumerate in fiecare caz.}
+\begin{enumerate}
+    \item  Este un dispozitiv destinat ieșirii pe hârtie a informaţiilor. ........
+    \item Este un dispozitiv periferic de intrare/ieșire.
+    \item Este un mic ventilator care păstrează temperatura constantă pentru microprocesor. ........
+    \item Este o memorie care nu își pierde conținutul la încetarea curentului electric,dar nici nu poate fi modificată prin programele utilizatorului. ........
+    \item Este interfața dintre monitor și microprocesor.
+    \item Asigură suportul pentru principalele module care intră în alcătuirea unui calculator personal. .......
+    \item Este principalul dispozitiv de introducere a datelor de tip text, din care cauza este inclusă în configurația minimă a unui calculator. .......
+    \item Totalitatea transformărilor pe care le suferă datele, atat ca formă cât și ca sens, pentru a se obține din ele informații. ........
+\end{enumerate}
+    
+\end{enumerate}
+
+\subsection{Rezolvări}
+\begin{enumerate}
+    \item 
+    \begin{enumerate}
+        \item MICROPROCESOR
+        \item HARDWARE
+        \item MAGISTRALA
+        \item CONECTOR
+        \item TASTATURA
+        \item LATENTA
+        \item IMPRIMANTA
+        \item MULTIPLEXOR
+        \item ASOCIATIV
+        \item PROCESORUL
+    \end{enumerate}
+    \item 
+    \begin{enumerate}
+        \item F
+        \item A
+        \item A
+        \item F
+        \item F
+        \item A
+        \item A
+    \end{enumerate}
+    \item 
+    \begin{enumerate}
+        \item imprimanta
+        \item modemul /  placa de rețea
+        \item cooler
+        \item ROM
+        \item placa video
+        \item placa de bază
+        \item tastatura
+        \item program
+    \end{enumerate}
+\end{enumerate}
+
+\section {\fontsize{12}{16}\selectfont {FUN FACTS}}
+{\color{black} \rule{\linewidth}{0.5mm}}
+\begin{itemize}
+
+\item \textcolor[RGB]{124, 13, 208}{Acum peste 2000 de ani, s-a realizat probabil primul calculator, mecanismul Antikythera, datând din anul 87 î.e.n. și folosit aparent pentru calcularea mișcărilor planetelor. Tehnologia care a stat la baza acestui mecanism nu este cunoscută.}
+\item \textcolor[RGB]{124, 13, 208} {Ada este un limbaj de programare folosit în Departamentul apărării din SUA. Acest limbaj a fost creat în 1980 în memoria fiicei poetului englez George Byron, Ada Byron, care în 1842-1843 a scris primul algoritm de calcul, aceasta fiind considerată primul programator.}
+\item  \textcolor[RGB]{124, 13, 208}{Alan Turing, considerat a fi părintele informaticii și inteligenței artificiale teoretice, a creat primul program de jucat șah pentru calculator. Cum la acel moment nu existau calculatoare pentru a fi testat, acest lucru a fost făcut cu ajutorul creionului si al hârtiei.}
+\item  \textcolor[RGB]{124, 13, 208}{Principiile lui John von Neumann sunt incluse în fiecare calculator modern, tabletă sau telefon. De asemenea, acesta a fost și unul dintre primii susținători ai inteligenței artificiale, propunând ideea mașinilor cu auto-replicare. }
+
+\end{itemize}
+
+\section{\fontsize{12}{16}\selectfont BIBLIOGRAFIE}
+{\color{black} \rule{\linewidth}{0.5mm}}
+\begin{enumerate}
+    \item G. McFarland,\textit{ Microprocessor Design – A Practical Guide from Design Planning to Manufacturing}, McGraw-Hill, 2006
+    \item D.A. Patterson, J.L. Hennessy, \textit{Computer Organization and Design},  5$^{th}$ Ed., Morgan Kaufmann Pub, Elsevier, 2014
+    \item J.L. Hennessy, D.A. Patterson, \textit{Computer Architecture – A Quantitative Approach},  5$^{th}$ Ed., Morgan Kaufmann Pub, Elsevier, 2012
+    \item J. Steinhart, \textit{The Secret Life of Programs}, No Starch Press, 2019
+    \item A.S. Tanenbaum,\textit{ Structured Computer Organization}, 5$^{th}$ Ed., Prentice Hall, Pearson, 2006
+    \item John L. Hennessy, David A. Patterson, \textit{Computer Architecture: A Quantitative Approach}, 2017
+
+\item *, \textit{Ada Lovelace} preluat de pe site-ul 
+
+\href{https://www.biography.com/scholars-educators/ada-lovelace}{https://www.biography.com/scholars-educators/ada-lovelace}, accesat ultima oară la data de 30 mai 2023
+
+\item *, \textit{Who was Alan Turing?} preluat de pe site-ul 
+
+\href{https://www.twinkl.ro/teaching-wiki/alan-turing}{https://www.twinkl.ro/teaching-wiki/alan-turing}, accesat ultima oară la data de 05 iunie 2023
+
+\item *, \textit{John von Neumann facts for kids} preluat de pe site-ul 
+
+\href{https://kids.kiddle.co/John_von_Neumann}{https://kids.kiddle.co/John\_von\_Neumann}, accesat ultima oară la data de 30 mai 2023
+
+\item *, \textit{Rețeaua de calculatoare} preluat de pe site-ul 
+
+\href{https://ro.wikipedia.org/wiki/Re%C8%9Bea_de_calculatoare}{https://ro.wikipedia.org/wiki/Re\%C8\%9Bea\_de\_calculatoare}, accesat ultima oară la data de 05 iunie 2023
+
+\item *,\textit{Sistemul de calcul. 
+Istoric}, preluat de pe site-ul \href{https://programare.top/Sistemul_de_calculIstoric.pdf}{https://programare.top/Sistemul\_de\_calculIstoric.pdf}, accesat ultima oară la data de 06 iunie 2023
+    
+\end{enumerate}
+\end{document}
